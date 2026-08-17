@@ -631,74 +631,83 @@ function delProduct(id) {
 ========================================================= */
 
 function stocks() {
-    document.getElementById("stockTable").innerHTML =
-        `
+    const table = document.getElementById("stockTable");
+    const history = document.getElementById("stockHistory");
+
+    if (!table) return;
+
+    table.innerHTML = `
         <div class="row">
             <b>Produk</b>
             <b>Stok</b>
             <b>Min</b>
             <b>Status</b>
         </div>
-        ` +
-        db.products.map(p => `
-            <div class="row">
-                <span>
-                    ${escapeHTML(p.name)}
-                </span>
-
-                <span>
-                    ${p.stock}
-                    ${escapeHTML(p.unit)}
-                </span>
-
-                <span>
-                    ${p.min}
-                </span>
-
-                <span class="${p.stock <= p.min ? "danger" : ""}">
-                    ${p.stock <= p.min ? "MENIPIS" : "AMAN"}
-                </span>
-            </div>
-        `).join("") +
-
-        `
-        <br>
-        <hr>
-        <br>
-
-        <h3>Riwayat Mutasi Stok</h3>
 
         ${
-            db.stockMoves
-                .slice()
-                .reverse()
-                .slice(0, 30)
-                .map(m => `
-                    <div class="row">
-                        <span>
-                            <b>${escapeHTML(m.productName)}</b>
-                            <small>
-                                ${new Date(m.date).toLocaleString("id-ID")}
-                            </small>
-                        </span>
+            db.products.map(p => `
+                <div class="row">
+                    <span>
+                        <b>${escapeHTML(p.name)}</b><br>
+                        <small>${escapeHTML(p.barcode)}</small>
+                    </span>
 
-                        <span>
-                            ${m.type === "masuk" ? "+" : "-"}${m.qty}
-                        </span>
+                    <span>
+                        ${p.stock} ${escapeHTML(p.unit)}
+                    </span>
 
-                        <span>
-                            ${m.before} → ${m.after}
-                        </span>
+                    <span>${p.min}</span>
 
-                        <small>
-                            ${escapeHTML(m.note || "")}
-                        </small>
-                    </div>
-                `).join("")
-            || "Belum ada mutasi stok."
+                    <span class="${p.stock <= p.min ? "danger" : ""}">
+                        ${
+                            p.stock <= p.min
+                            ? "MENIPIS"
+                            : "AMAN"
+                        }
+                    </span>
+                </div>
+            `).join("")
+            || "Belum ada produk."
         }
-        `;
+    `;
+
+    if (!history) return;
+
+    const moves = (db.stockMoves || [])
+        .slice()
+        .reverse();
+
+    history.innerHTML =
+        moves.length
+        ? moves.map(m => `
+            <div class="row">
+                <span>
+                    <b>${escapeHTML(m.productName)}</b><br>
+                    <small>
+                        ${new Date(m.date).toLocaleString("id-ID")}
+                    </small>
+                </span>
+
+                <span>
+                    ${
+                        m.type === "masuk"
+                        ? "＋"
+                        : "−"
+                    }${m.qty}
+                </span>
+
+                <span>
+                    ${m.before} → ${m.after}
+                </span>
+
+                <small>
+                    ${escapeHTML(m.note || "")}
+                </small>
+            </div>
+        `).join("")
+        : "Belum ada riwayat mutasi stok.";
 }
+
 
 /* =========================================================
    STOK MASUK
