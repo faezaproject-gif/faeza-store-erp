@@ -16,14 +16,27 @@
 <section id="stok" class="page">
     <div class="head">
         <h2>Stok</h2>
+
         <div>
-            <button class="gold" onclick="stockIn()">＋ Stok Masuk</button>
-            <button onclick="stockOut()">− Stok Keluar</button>
+            <button class="gold" type="button" onclick="stockIn()">
+                ＋ Stok Masuk
+            </button>
+
+            <button type="button" onclick="stockOut()">
+                − Stok Keluar
+            </button>
         </div>
     </div>
 
     <div class="card" id="stockTable"></div>
-</section>
+
+    <div class="card">
+        <h3>Riwayat Mutasi Stok</h3>
+        <div id="stockHistory">
+            Belum ada riwayat mutasi stok.
+        </div>
+    </div>
+                                                                                                                                             </section>
 <section id="supplier" class="page"><div class="head"><h2>Supplier</h2><button class="gold" onclick="addSupplier()">＋ Supplier</button></div><div class="card" id="supplierTable"></div></section>
 <section id="hutang" class="page"><div class="head"><h2>Hutang & Piutang</h2><button onclick="addDebt()">＋ Catat</button></div><div class="stats"><div><small>Hutang</small><b id="hutangTotal">Rp0</b></div><div><small>Piutang</small><b id="piutangTotal">Rp0</b></div></div><div class="card" id="debtTable"></div></section>
 <section id="laporan" class="page"><div class="head"><h2>Laporan</h2></div><div class="card" id="report"></div></section>
