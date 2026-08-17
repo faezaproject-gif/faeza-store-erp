@@ -1,0 +1,1 @@
+# faeza-store-erp
