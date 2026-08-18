@@ -107,3 +107,19 @@ button {
     pointer-events: auto !important;
     touch-action: manipulation !important;
 }
+
+/* ========================================
+   MODAL CANCEL TOUCH FINAL
+======================================== */
+
+#modal button {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation !important;
+}
+
+#modal button:last-child {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
