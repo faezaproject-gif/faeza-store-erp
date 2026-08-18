@@ -1523,6 +1523,26 @@ function init() {
     renderReports();
 
    renderSuppliers();
+       document.getElementById(
+        "saveSupplierButton"
+    ).addEventListener(
+        "click",
+        saveSupplier
+    );
+
+    document.getElementById(
+        "cancelSupplierButton"
+    ).addEventListener(
+        "click",
+        clearSupplierForm
+    );
+
+    document.getElementById(
+        "supplierSearch"
+    ).addEventListener(
+        "input",
+        renderSuppliers
+    );
 
 
     document.getElementById(
@@ -1604,25 +1624,3 @@ document.addEventListener(
     init
 );
 
-document.getElementById(
-    "saveSupplierButton"
-).addEventListener(
-    "click",
-    saveSupplier
-);
-
-
-document.getElementById(
-    "cancelSupplierButton"
-).addEventListener(
-    "click",
-    clearSupplierForm
-);
-
-
-document.getElementById(
-    "supplierSearch"
-).addEventListener(
-    "input",
-    renderSuppliers
-);
