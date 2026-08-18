@@ -2702,6 +2702,7 @@ function renderDebts() {
 /*
    BAGIAN 4/4 DITEMPEL TEPAT DI BAWAH INI
 */
+
 /* =========================================================
    FAEZA STORE ERP
    SCRIPT.JS — FINAL STABLE
@@ -2720,47 +2721,30 @@ function renderReport() {
 
     if (!el) return;
 
-
     const sales =
         Array.isArray(db.sales)
             ? db.sales
             : [];
 
-
     const totalOmzet =
         sales.reduce(
-            (sum, s) =>
-                sum +
-                Number(s.total || 0),
+            (sum, sale) =>
+                sum + Number(sale.total || 0),
             0
         );
-
 
     const totalLaba =
         sales.reduce(
-            (sum, s) =>
-                sum +
-                Number(s.profit || 0),
+            (sum, sale) =>
+                sum + Number(sale.profit || 0),
             0
         );
-
 
     const totalTransaksi =
         sales.length;
 
-
     const totalProduk =
         db.products.length;
-
-
-    const totalStok =
-        db.products.reduce(
-            (sum, p) =>
-                sum +
-                Number(p.stock || 0),
-            0
-        );
-
 
     el.innerHTML = `
 
@@ -2790,7 +2774,7 @@ function renderReport() {
 
             <div>
                 <small>
-                    Laba Kotor
+                    Total Laba
                 </small>
 
                 <b>
@@ -2801,29 +2785,13 @@ function renderReport() {
 
             <div>
                 <small>
-                    Produk
+                    Total Produk
                 </small>
 
                 <b>
                     ${totalProduk}
                 </b>
             </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>
-                Ringkasan Stok
-            </h3>
-
-            <p>
-                Total stok:
-                <b>
-                    ${totalStok}
-                </b>
-            </p>
 
         </div>
 
@@ -2841,49 +2809,49 @@ function renderReport() {
 
                 [...sales]
                     .reverse()
-                    .map(s => `
+                    .map(
+                        sale => `
 
-                        <div class="row">
+                            <div class="row">
 
-                            <span>
+                                <span>
+
+                                    <b>
+                                        ${escapeHTML(
+                                            sale.invoice ||
+                                            "-"
+                                        )}
+                                    </b>
+
+                                    <br>
+
+                                    <small>
+                                        ${
+                                            sale.date
+                                            ?
+                                            new Date(
+                                                sale.date
+                                            ).toLocaleString(
+                                                "id-ID"
+                                            )
+                                            :
+                                            "-"
+                                        }
+                                    </small>
+
+                                </span>
+
 
                                 <b>
-                                    ${escapeHTML(
-                                        s.invoice ||
-                                        "-"
+                                    Rp${rupiah(
+                                        sale.total || 0
                                     )}
                                 </b>
 
-                                <br>
+                            </div>
 
-                                <small>
-                                    ${
-                                        s.date
-                                            ?
-                                        new Date(
-                                            s.date
-                                        ).toLocaleString(
-                                            "id-ID"
-                                        )
-                                            :
-                                        "-"
-                                    }
-                                </small>
-
-                            </span>
-
-
-                            <span>
-
-                                Rp${rupiah(
-                                    s.total
-                                )}
-
-                            </span>
-
-                        </div>
-
-                    `)
+                        `
+                    )
                     .join("")
 
                 :
@@ -2898,7 +2866,7 @@ function renderReport() {
 
 
 /* =========================================================
-   BACKUP DATABASE
+   BACKUP
 ========================================================= */
 
 function backup() {
@@ -2913,7 +2881,7 @@ function backup() {
             version:
                 "MVP v2",
 
-            exportedAt:
+            date:
                 new Date().toISOString(),
 
             database:
@@ -2946,7 +2914,7 @@ function backup() {
             );
 
 
-        const a =
+        const link =
             document.createElement(
                 "a"
             );
@@ -2961,24 +2929,34 @@ function backup() {
                 );
 
 
-        a.href = url;
+        link.href =
+            url;
 
-        a.download =
+        link.download =
             `faeza-store-backup-${date}.json`;
 
 
-        document.body.appendChild(a);
+        document.body.appendChild(
+            link
+        );
 
-        a.click();
 
-        document.body.removeChild(a);
+        link.click();
+
+
+        document.body.removeChild(
+            link
+        );
 
 
         setTimeout(
-            () =>
+            function () {
+
                 URL.revokeObjectURL(
                     url
-                ),
+                );
+
+            },
             1000
         );
 
@@ -2987,12 +2965,14 @@ function backup() {
             "Backup berhasil dibuat."
         );
 
+
     } catch (error) {
 
         console.error(
             "Backup error:",
             error
         );
+
 
         alert(
             "Backup gagal dibuat."
@@ -3004,13 +2984,17 @@ function backup() {
 
 
 /* =========================================================
-   RESTORE DATABASE
+   RESTORE
 ========================================================= */
 
 function restore(event) {
 
+    const input =
+        event?.target;
+
+
     const file =
-        event?.target?.files?.[0];
+        input?.files?.[0];
 
 
     if (!file) return;
@@ -3031,28 +3015,18 @@ function restore(event) {
                     );
 
 
-                let importedDB;
-
-
-                if (
+                const imported =
                     raw &&
                     raw.database
-                ) {
-
-                    importedDB =
-                        raw.database;
-
-                } else {
-
-                    importedDB =
-                        raw;
-
-                }
+                    ?
+                    raw.database
+                    :
+                    raw;
 
 
                 if (
-                    !importedDB ||
-                    typeof importedDB !==
+                    !imported ||
+                    typeof imported !==
                     "object"
                 ) {
 
@@ -3063,34 +3037,15 @@ function restore(event) {
                 }
 
 
-                importedDB.products ||=
-                    [];
-
-                importedDB.stockMoves ||=
-                    [];
-
-                importedDB.sales ||=
-                    [];
-
-                importedDB.suppliers ||=
-                    [];
-
-                importedDB.debts ||=
-                    [];
-
-                importedDB.expenses ||=
-                    [];
-
-
-                const ok =
+                const confirmRestore =
                     confirm(
-                        "Restore backup akan mengganti data aplikasi saat ini.\n\nLanjutkan?"
+                        "Restore backup akan mengganti data saat ini.\n\nLanjutkan?"
                     );
 
 
-                if (!ok) {
+                if (!confirmRestore) {
 
-                    event.target.value =
+                    input.value =
                         "";
 
                     return;
@@ -3098,18 +3053,72 @@ function restore(event) {
                 }
 
 
-                db =
-                    importedDB;
+                db = {
+
+                    products:
+                        Array.isArray(
+                            imported.products
+                        )
+                        ?
+                        imported.products
+                        :
+                        [],
+
+                    stockMoves:
+                        Array.isArray(
+                            imported.stockMoves
+                        )
+                        ?
+                        imported.stockMoves
+                        :
+                        [],
+
+                    sales:
+                        Array.isArray(
+                            imported.sales
+                        )
+                        ?
+                        imported.sales
+                        :
+                        [],
+
+                    suppliers:
+                        Array.isArray(
+                            imported.suppliers
+                        )
+                        ?
+                        imported.suppliers
+                        :
+                        [],
+
+                    debts:
+                        Array.isArray(
+                            imported.debts
+                        )
+                        ?
+                        imported.debts
+                        :
+                        [],
+
+                    expenses:
+                        Array.isArray(
+                            imported.expenses
+                        )
+                        ?
+                        imported.expenses
+                        :
+                        []
+
+                };
 
 
-                cart =
-                    [];
+                cart = [];
 
 
                 saveDB();
 
 
-                refreshApplication();
+                refreshAll();
 
 
                 cancelModal();
@@ -3135,12 +3144,8 @@ function restore(event) {
             }
 
 
-            if (event?.target) {
-
-                event.target.value =
-                    "";
-
-            }
+            input.value =
+                "";
 
         };
 
@@ -3153,17 +3158,15 @@ function restore(event) {
             );
 
 
-            if (event?.target) {
-
-                event.target.value =
-                    "";
-
-            }
+            input.value =
+                "";
 
         };
 
 
-    reader.readAsText(file);
+    reader.readAsText(
+        file
+    );
 
 }
 
@@ -3174,22 +3177,22 @@ function restore(event) {
 
 function resetData() {
 
-    const confirm1 =
+    const first =
         confirm(
-            "PERINGATAN!\n\nSemua data produk, stok, transaksi, supplier, hutang/piutang dan pengeluaran akan dihapus.\n\nLanjutkan?"
+            "PERINGATAN!\n\nSemua produk, stok, transaksi, supplier, hutang/piutang dan pengeluaran akan dihapus.\n\nLanjutkan?"
         );
 
 
-    if (!confirm1) return;
+    if (!first) return;
 
 
-    const confirm2 =
+    const second =
         confirm(
             "Yakin ingin RESET seluruh data aplikasi?"
         );
 
 
-    if (!confirm2) return;
+    if (!second) return;
 
 
     db =
@@ -3206,7 +3209,7 @@ function resetData() {
     cancelModal();
 
 
-    refreshApplication();
+    refreshAll();
 
 
     alert(
@@ -3217,10 +3220,12 @@ function resetData() {
 
 
 /* =========================================================
-   REFRESH SELURUH APLIKASI
+   REFRESH SELURUH DATA
 ========================================================= */
 
-function refreshApplication() {
+function refreshAll() {
+
+    dashboard();
 
     products();
 
@@ -3236,39 +3241,28 @@ function refreshApplication() {
 
     renderReport();
 
-    dashboard();
-
-}
-
-
-/* =========================================================
-   PENGAMAN MODAL
-   KHUSUS TOMBOL BATAL ANDROID
-========================================================= */
-
-function safeCancelModal(event) {
-
-    if (event) {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-    }
-
-
-    cancelModal();
-
-    return false;
-
 }
 
 
 /* =========================================================
    PENGAMAN TOMBOL BATAL
+   ANDROID / TOUCH / MOUSE
 ========================================================= */
 
-function protectCancelButtons() {
+function initCancelProtection() {
+
+    if (
+        window.__faezaCancelProtection
+    ) {
+
+        return;
+
+    }
+
+
+    window.__faezaCancelProtection =
+        true;
+
 
     document.addEventListener(
         "click",
@@ -3276,11 +3270,15 @@ function protectCancelButtons() {
 
             const button =
                 event.target.closest(
-                    ".cancel-button, [data-action='cancel']"
+                    ".cancel-button"
                 );
 
 
-            if (!button) return;
+            if (!button) {
+
+                return;
+
+            }
 
 
             event.preventDefault();
@@ -3292,6 +3290,7 @@ function protectCancelButtons() {
 
             cancelModal();
 
+
         },
         true
     );
@@ -3300,34 +3299,105 @@ function protectCancelButtons() {
 
 
 /* =========================================================
-   KLIK AREA LUAR MODAL
+   PENGAMAN TOUCH ANDROID
 ========================================================= */
 
-function protectModalOutsideClick() {
+function initAndroidCancelProtection() {
+
+    if (
+        window.__faezaTouchProtection
+    ) {
+
+        return;
+
+    }
+
+
+    window.__faezaTouchProtection =
+        true;
+
+
+    document.addEventListener(
+        "touchend",
+        function (event) {
+
+            const button =
+                event.target.closest(
+                    ".cancel-button"
+                );
+
+
+            if (!button) {
+
+                return;
+
+            }
+
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            cancelModal();
+
+
+        },
+        {
+            capture: true,
+            passive: false
+        }
+    );
+
+}
+
+
+/* =========================================================
+   KLIK LUAR MODAL
+========================================================= */
+
+function initModalOutside() {
+
+    if (
+        window.__faezaModalOutside
+    ) {
+
+        return;
+
+    }
+
+
+    window.__faezaModalOutside =
+        true;
+
 
     document.addEventListener(
         "click",
         function (event) {
 
-            const modalEl =
+            const modalBox =
                 document.getElementById(
                     "modal"
                 );
 
 
-            if (!modalEl) return;
+            if (!modalBox) return;
 
 
             if (
-                !modalEl.classList.contains(
+                !modalBox.classList.contains(
                     "show"
                 )
-            ) return;
+            ) {
+
+                return;
+
+            }
 
 
             if (
                 event.target ===
-                modalEl
+                modalBox
             ) {
 
                 cancelModal();
@@ -3341,38 +3411,54 @@ function protectModalOutsideClick() {
 
 
 /* =========================================================
-   TOMBOL ESC / BACKSPACE
+   TOMBOL ESC
 ========================================================= */
 
-function protectKeyboardCancel() {
+function initEscapeKey() {
+
+    if (
+        window.__faezaEscapeProtection
+    ) {
+
+        return;
+
+    }
+
+
+    window.__faezaEscapeProtection =
+        true;
+
 
     document.addEventListener(
         "keydown",
         function (event) {
 
             if (
-                event.key ===
+                event.key !==
                 "Escape"
             ) {
 
-                const modalEl =
-                    document.getElementById(
-                        "modal"
-                    );
+                return;
+
+            }
 
 
-                if (
-                    modalEl &&
-                    modalEl.classList.contains(
-                        "show"
-                    )
-                ) {
+            const modalBox =
+                document.getElementById(
+                    "modal"
+                );
 
-                    event.preventDefault();
 
-                    cancelModal();
+            if (
+                modalBox &&
+                modalBox.classList.contains(
+                    "show"
+                )
+            ) {
 
-                }
+                event.preventDefault();
+
+                cancelModal();
 
             }
 
@@ -3403,7 +3489,24 @@ function initMobileMenu() {
     if (
         !menu ||
         !nav
-    ) return;
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        window.__faezaMobileMenu
+    ) {
+
+        return;
+
+    }
+
+
+    window.__faezaMobileMenu =
+        true;
 
 
     menu.setAttribute(
@@ -3436,7 +3539,7 @@ function initMobileMenu() {
     nav.querySelectorAll(
         "[data-page]"
     ).forEach(
-        button => {
+        function (button) {
 
             button.addEventListener(
                 "click",
@@ -3444,8 +3547,13 @@ function initMobileMenu() {
 
                     event.preventDefault();
 
+                    event.stopPropagation();
+
+
                     const page =
-                        this.dataset.page;
+                        this.getAttribute(
+                            "data-page"
+                        );
 
 
                     if (!page) return;
@@ -3476,114 +3584,33 @@ function initMobileMenu() {
         function (event) {
 
             if (
-                !nav.contains(
-                    event.target
-                ) &&
-                event.target !==
-                    menu
+                event.target ===
+                menu
             ) {
 
-                nav.classList.remove(
-                    "show"
-                );
-
-                nav.classList.remove(
-                    "open"
-                );
+                return;
 
             }
 
-        }
-    );
-
-}
-
-
-/* =========================================================
-   PERBAIKAN NAVIGASI
-========================================================= */
-
-function initNavigation() {
-
-    const nav =
-        document.getElementById(
-            "nav"
-        );
-
-
-    if (!nav) return;
-
-
-    nav.querySelectorAll(
-        "[data-page]"
-    ).forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-
-
-                    const page =
-                        this.getAttribute(
-                            "data-page"
-                        );
-
-
-                    if (page) {
-
-                        showPage(
-                            page
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   PERBAIKAN MODAL
-========================================================= */
-
-function initModalSystem() {
-
-    const modalEl =
-        document.getElementById(
-            "modal"
-        );
-
-
-    if (!modalEl) return;
-
-
-    modalEl.style.display =
-        "none";
-
-
-    modalEl.style.pointerEvents =
-        "none";
-
-
-    modalEl.addEventListener(
-        "click",
-        function (event) {
 
             if (
-                event.target ===
-                modalEl
+                nav.contains(
+                    event.target
+                )
             ) {
 
-                cancelModal();
+                return;
 
             }
+
+
+            nav.classList.remove(
+                "show"
+            );
+
+            nav.classList.remove(
+                "open"
+            );
 
         }
     );
@@ -3592,54 +3619,14 @@ function initModalSystem() {
 
 
 /* =========================================================
-   SAFE CANCEL UNTUK ANDROID
-========================================================= */
-
-document.addEventListener(
-    "click",
-    function (event) {
-
-        const target =
-            event.target.closest(
-                "button"
-            );
-
-
-        if (!target) return;
-
-
-        const isCancel =
-            target.classList.contains(
-                "cancel-button"
-            ) ||
-            target.dataset.action ===
-                "cancel";
-
-
-        if (!isCancel) return;
-
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-
-        cancelModal();
-
-    },
-    true
-);
-
-
-/* =========================================================
-   INITIALISASI APLIKASI
+   INISIALISASI
 ========================================================= */
 
 function initApp() {
 
     try {
 
-        /* Pastikan struktur database aman */
+        /* Pastikan struktur database */
 
         db.products ||=
             [];
@@ -3660,58 +3647,44 @@ function initApp() {
             [];
 
 
-        /* Pastikan cart selalu array */
+        /* Pastikan keranjang */
 
-        if (!Array.isArray(cart)) {
+        if (
+            !Array.isArray(cart)
+        ) {
 
             cart = [];
 
         }
 
 
-        /* Simpan struktur database */
+        /* Simpan struktur */
 
         saveDB();
 
 
-        /* Sistem navigasi */
+        /* Pengaman modal */
 
-        initNavigation();
+        initCancelProtection();
+
+        initAndroidCancelProtection();
+
+        initModalOutside();
+
+        initEscapeKey();
+
+
+        /* Menu */
 
         initMobileMenu();
 
 
-        /* Sistem modal */
-
-        initModalSystem();
-
-        protectCancelButtons();
-
-        protectModalOutsideClick();
-
-        protectKeyboardCancel();
-
-
         /* Render awal */
 
-        dashboard();
-
-        renderPOS();
-
-        products();
-
-        stocks();
-
-        renderSuppliers();
-
-        renderDebts();
-
-        renderReport();
-
-        renderCart();
+        refreshAll();
 
 
-        /* Pastikan halaman awal */
+        /* Halaman awal */
 
         showPage(
             "dashboard"
@@ -3719,14 +3692,14 @@ function initApp() {
 
 
         console.log(
-            "FAEZA STORE ERP berhasil diinisialisasi."
+            "FAEZA STORE ERP — Bagian 4/4 aktif."
         );
 
 
     } catch (error) {
 
         console.error(
-            "Gagal inisialisasi aplikasi:",
+            "Faeza Store ERP initialization error:",
             error
         );
 
@@ -3738,6 +3711,7 @@ function initApp() {
 /* =========================================================
    DOM READY
 ========================================================= */
+
 if (
     document.readyState ===
     "loading"
@@ -3759,15 +3733,15 @@ if (
 
 
 /* =========================================================
-   GLOBAL ACCESS
-   UNTUK onclick HTML
+   GLOBAL FUNCTIONS
+   UNTUK onclick DI HTML
 ========================================================= */
-
-window.go =
-    go;
 
 window.showPage =
     showPage;
+
+window.go =
+    go;
 
 window.cancelModal =
     cancelModal;
@@ -3778,8 +3752,8 @@ window.closeModal =
 window.close =
     close;
 
-window.safeCancelModal =
-    safeCancelModal;
+window.renderReport =
+    renderReport;
 
 window.backup =
     backup;
@@ -3790,14 +3764,18 @@ window.restore =
 window.resetData =
     resetData;
 
-window.renderReport =
-    renderReport;
-
 window.initApp =
     initApp;
 
 
 /* =========================================================
    AKHIR BAGIAN 4/4
-   FAEZA STORE ERP
 ========================================================= */
+    
+
+
+                                                        
+                                    
+                
+
+               
