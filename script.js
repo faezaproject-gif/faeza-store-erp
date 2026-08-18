@@ -1628,3 +1628,69 @@ document.addEventListener(
         showPage("dashboard");
     }
 );
+
+/* =====================================================
+   FAEZA STORE ERP
+   UNIVERSAL CLICK ENGINE
+   FIX BATAL + KOSONGKAN + MODAL
+===================================================== */
+
+document.addEventListener("click", function (e) {
+
+    const button = e.target.closest("button");
+
+    if (!button) return;
+
+    /* ===============================
+       BATAL MODAL
+    =============================== */
+
+    if (
+        button.textContent.trim().toLowerCase() === "batal"
+    ) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const modalBox =
+            document.getElementById("modal");
+
+        if (modalBox) {
+
+            modalBox.className = "";
+
+            modalBox.style.display = "none";
+
+            modalBox.innerHTML = "";
+
+            modalBox.removeAttribute("style");
+
+            modalBox.className = "modal";
+        }
+
+        return;
+    }
+
+    /* ===============================
+       KOSONGKAN KERANJANG
+    =============================== */
+
+    if (
+        button.textContent.trim().toLowerCase() === "kosongkan"
+    ) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (typeof cart !== "undefined") {
+
+            cart.length = 0;
+
+            if (typeof renderCart === "function") {
+                renderCart();
+            }
+
+        }
+
+        return;
+    }
+
+});
