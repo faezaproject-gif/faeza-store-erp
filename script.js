@@ -1905,3 +1905,20 @@ function closeModal() {
     box.className = "modal";
     box.innerHTML = "";
 }
+/* ========================================
+   UNIVERSAL MODAL CLOSE FIX
+======================================== */
+
+function closeModal() {
+    const modalBox = document.getElementById("modal");
+
+    if (modalBox) {
+        modalBox.className = "modal";
+        modalBox.innerHTML = "";
+    }
+}
+
+/* Pastikan tombol close() lama juga bekerja */
+function close() {
+    closeModal();
+}
