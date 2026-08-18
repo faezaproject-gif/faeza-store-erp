@@ -3243,115 +3243,13 @@ function refreshAll() {
 
 }
 
+Edit
 
-/* =========================================================
-   PENGAMAN TOMBOL BATAL
-   ANDROID / TOUCH / MOUSE
-========================================================= */
-
-function initCancelProtection() {
-
-    if (
-        window.__faezaCancelProtection
-    ) {
-
-        return;
-
-    }
-
-
-    window.__faezaCancelProtection =
-        true;
-
-
-    document.addEventListener(
-        "click",
-        function (event) {
-
-            const button =
-                event.target.closest(
-                    ".cancel-button"
-                );
-
-
-            if (!button) {
-
-                return;
-
-            }
-
-
-            event.preventDefault();
-
-            event.stopPropagation();
-
-            event.stopImmediatePropagation();
-
-
-            cancelModal();
-
-
-        },
-        true
-    );
-
-}
-
-
-/* =========================================================
-   PENGAMAN TOUCH ANDROID
-========================================================= */
-
-function initAndroidCancelProtection() {
-
-    if (
-        window.__faezaTouchProtection
-    ) {
-
-        return;
-
-    }
-
-
-    window.__faezaTouchProtection =
-        true;
-
-
-    document.addEventListener(
-        "touchend",
-        function (event) {
-
-            const button =
-                event.target.closest(
-                    ".cancel-button"
-                );
-
-
-            if (!button) {
-
-                return;
-
-            }
-
-
-            event.preventDefault();
-
-            event.stopPropagation();
-
-
-            cancelModal();
-
-
-        },
-        {
-            capture: true,
-            passive: false
-        }
-    );
-
-}
-
-
+Preview
+ @@ -3244,171 +3244,12 @@ function refreshAll() {
+ }
+ }
+ 
 /* =========================================================
    KLIK LUAR MODAL
 ========================================================= */
@@ -3664,10 +3562,6 @@ function initApp() {
 
 
         /* Pengaman modal */
-
-        initCancelProtection();
-
-        initAndroidCancelProtection();
 
         initModalOutside();
 
