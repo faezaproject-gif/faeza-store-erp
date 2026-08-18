@@ -67,3 +67,43 @@
     position: relative !important;
     z-index: 99999 !important;
 }
+
+/* ========================================
+   FAEZA STORE ERP
+   UNIVERSAL TOUCH FIX
+======================================== */
+
+button {
+    position: relative !important;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    cursor: pointer;
+}
+
+#modal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9999 !important;
+}
+
+#modal.modal {
+    pointer-events: none !important;
+}
+
+#modal.modal.show {
+    pointer-events: auto !important;
+}
+
+#modal.modal.show .box {
+    position: relative !important;
+    z-index: 10000 !important;
+    pointer-events: auto !important;
+}
+
+#modal.modal.show button {
+    position: relative !important;
+    z-index: 10001 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+}
