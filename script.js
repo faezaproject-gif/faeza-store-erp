@@ -105,7 +105,7 @@ function closeModal() {
 }
 
 function close() {
-    closeModal();
+    cancel modal();
 }
 
 /* =====================================================
@@ -270,7 +270,7 @@ function addProduct() {
             Simpan
         </button>
 
-        <button type="button" onclick="closeModal()">
+        <button type="button" onclick="cancelModal()">
     Batal
 </button>
     `);
@@ -342,7 +342,7 @@ function saveProduct() {
 
     saveDB();
 
-    close();
+    cancelmodal();
 
     products();
     stocks();
@@ -753,7 +753,7 @@ function stockIn() {
             Simpan
         </button>
 
-        <button onclick="close()">
+        <button onclick="cancelmodal()">
             Batal
         </button>
     `);
@@ -865,7 +865,7 @@ function stockOut() {
             Simpan
         </button>
 
-        <button onclick="close()">
+        <button onclick="cancelmodal()">
             Batal
         </button>
     `);
@@ -931,7 +931,7 @@ function saveStockOut() {
 
     saveDB();
 
-    close();
+    cancle();
 
     stocks();
     dashboard();
@@ -1028,7 +1028,7 @@ function stockCard() {
             Tampilkan
         </button>
 
-        <button onclick="close()">
+        <button onclick="cancel()">
             Batal
         </button>
 
@@ -1147,7 +1147,7 @@ function addSupplier() {
             Simpan
         </button>
 
-        <button onclick="close()">
+        <button onclick="cancel()">
             Batal
         </button>
     `);
@@ -1262,7 +1262,7 @@ function addDebt() {
             Simpan
         </button>
 
-        <button onclick="close()">
+        <button onclick="cancel()">
             Batal
         </button>
     `);
