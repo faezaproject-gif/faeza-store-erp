@@ -94,19 +94,18 @@ function modal(content) {
     box.style.display = "";
 }
 
-function close() {
-
+function closeModal() {
     const box = document.getElementById("modal");
 
     if (!box) return;
 
-    box.className = "modal";
+    box.classList.remove("show");
     box.style.display = "none";
     box.innerHTML = "";
 }
 
-function closeModal() {
-    close();
+function close() {
+    closeModal();
 }
 
 /* =====================================================
@@ -271,9 +270,9 @@ function addProduct() {
             Simpan
         </button>
 
-        <button onclick="close()">
-            Batal
-        </button>
+        <button type="button" onclick="closeModal()">
+    Batal
+</button>
     `);
 }
 
