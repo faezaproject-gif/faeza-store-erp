@@ -1478,14 +1478,15 @@ document.addEventListener(
             removeFromCart(
                 removeCartButton.dataset
                     .removeCart
-            );
+           } );
+        }
 
            const deleteSupplierButton =
     event.target.closest(
         "[data-delete-supplier]"
     );
 
-if (deleteSupplierButton) {
+           if (deleteSupplierButton) {
 
     deleteSupplier(
         deleteSupplierButton.dataset
@@ -1493,6 +1494,7 @@ if (deleteSupplierButton) {
     );
 
     return;
+
                       }
 
         }
