@@ -1892,3 +1892,16 @@ function showStockCard() {
 
     result.innerHTML = html;
                       }
+
+/* =========================================================
+   FIX MODAL KARTU STOK
+========================================================= */
+
+function closeModal() {
+    const box = document.getElementById("modal");
+
+    if (!box) return;
+
+    box.className = "modal";
+    box.innerHTML = "";
+}
