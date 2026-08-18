@@ -1499,6 +1499,8 @@ if (deleteSupplierButton) {
 
     return;
                          }
+           }
+);
 
 /* =====================================================
    INITIALIZATION
