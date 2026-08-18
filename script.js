@@ -969,3 +969,39 @@ document.addEventListener(
 
     }
 );
+
+/* =========================================
+   FINAL MODAL BUTTON FIX
+========================================= */
+
+document.addEventListener("click", function (e) {
+
+    const button = e.target.closest("button");
+
+    if (!button) return;
+
+    const text = button.textContent
+        .trim()
+        .toLowerCase();
+
+    if (
+        text === "batal" ||
+        text.includes("batal")
+    ) {
+
+        const modal =
+            document.getElementById("modal");
+
+        if (modal) {
+
+            modal.classList.remove("show");
+
+            modal.style.display = "none";
+
+            modal.innerHTML = "";
+
+        }
+
+    }
+
+});
