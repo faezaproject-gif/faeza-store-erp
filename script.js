@@ -56,8 +56,9 @@ function loadDatabase() {
 
         db = {
             products: [],
-            customers: [],
-            transactions: []
+    customers: [],
+    transactions: [],
+    suppliers: []
         };
     }
 }
