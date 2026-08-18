@@ -2702,5 +2702,937 @@ function renderDebts() {
 /*
    BAGIAN 4/4 DITEMPEL TEPAT DI BAWAH INI
 */
-*/
-*/
+/* =========================================================
+   FAEZA STORE ERP
+   SCRIPT.JS — FINAL STABLE
+   BAGIAN 4/4
+========================================================= */
+
+
+/* =========================================================
+   LAPORAN
+========================================================= */
+
+function renderReport() {
+
+    const el =
+        document.getElementById("report");
+
+    if (!el) return;
+
+
+    const sales =
+        Array.isArray(db.sales)
+            ? db.sales
+            : [];
+
+
+    const totalOmzet =
+        sales.reduce(
+            (sum, s) =>
+                sum +
+                Number(s.total || 0),
+            0
+        );
+
+
+    const totalLaba =
+        sales.reduce(
+            (sum, s) =>
+                sum +
+                Number(s.profit || 0),
+            0
+        );
+
+
+    const totalTransaksi =
+        sales.length;
+
+
+    const totalProduk =
+        db.products.length;
+
+
+    const totalStok =
+        db.products.reduce(
+            (sum, p) =>
+                sum +
+                Number(p.stock || 0),
+            0
+        );
+
+
+    el.innerHTML = `
+
+        <div class="stats">
+
+            <div>
+                <small>
+                    Total Transaksi
+                </small>
+
+                <b>
+                    ${totalTransaksi}
+                </b>
+            </div>
+
+
+            <div>
+                <small>
+                    Total Omzet
+                </small>
+
+                <b>
+                    Rp${rupiah(totalOmzet)}
+                </b>
+            </div>
+
+
+            <div>
+                <small>
+                    Laba Kotor
+                </small>
+
+                <b>
+                    Rp${rupiah(totalLaba)}
+                </b>
+            </div>
+
+
+            <div>
+                <small>
+                    Produk
+                </small>
+
+                <b>
+                    ${totalProduk}
+                </b>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Ringkasan Stok
+            </h3>
+
+            <p>
+                Total stok:
+                <b>
+                    ${totalStok}
+                </b>
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Riwayat Transaksi
+            </h3>
+
+            ${
+                sales.length
+
+                ?
+
+                [...sales]
+                    .reverse()
+                    .map(s => `
+
+                        <div class="row">
+
+                            <span>
+
+                                <b>
+                                    ${escapeHTML(
+                                        s.invoice ||
+                                        "-"
+                                    )}
+                                </b>
+
+                                <br>
+
+                                <small>
+                                    ${
+                                        s.date
+                                            ?
+                                        new Date(
+                                            s.date
+                                        ).toLocaleString(
+                                            "id-ID"
+                                        )
+                                            :
+                                        "-"
+                                    }
+                                </small>
+
+                            </span>
+
+
+                            <span>
+
+                                Rp${rupiah(
+                                    s.total
+                                )}
+
+                            </span>
+
+                        </div>
+
+                    `)
+                    .join("")
+
+                :
+
+                "<p>Belum ada transaksi.</p>"
+            }
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   BACKUP DATABASE
+========================================================= */
+
+function backup() {
+
+    try {
+
+        const backupData = {
+
+            app:
+                "Faeza Store ERP",
+
+            version:
+                "MVP v2",
+
+            exportedAt:
+                new Date().toISOString(),
+
+            database:
+                db
+
+        };
+
+
+        const json =
+            JSON.stringify(
+                backupData,
+                null,
+                2
+            );
+
+
+        const blob =
+            new Blob(
+                [json],
+                {
+                    type:
+                        "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(
+                blob
+            );
+
+
+        const a =
+            document.createElement(
+                "a"
+            );
+
+
+        const date =
+            new Date()
+                .toISOString()
+                .slice(
+                    0,
+                    10
+                );
+
+
+        a.href = url;
+
+        a.download =
+            `faeza-store-backup-${date}.json`;
+
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        document.body.removeChild(a);
+
+
+        setTimeout(
+            () =>
+                URL.revokeObjectURL(
+                    url
+                ),
+            1000
+        );
+
+
+        alert(
+            "Backup berhasil dibuat."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Backup error:",
+            error
+        );
+
+        alert(
+            "Backup gagal dibuat."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RESTORE DATABASE
+========================================================= */
+
+function restore(event) {
+
+    const file =
+        event?.target?.files?.[0];
+
+
+    if (!file) return;
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function () {
+
+            try {
+
+                const raw =
+                    JSON.parse(
+                        reader.result
+                    );
+
+
+                let importedDB;
+
+
+                if (
+                    raw &&
+                    raw.database
+                ) {
+
+                    importedDB =
+                        raw.database;
+
+                } else {
+
+                    importedDB =
+                        raw;
+
+                }
+
+
+                if (
+                    !importedDB ||
+                    typeof importedDB !==
+                    "object"
+                ) {
+
+                    throw new Error(
+                        "Format backup tidak valid."
+                    );
+
+                }
+
+
+                importedDB.products ||=
+                    [];
+
+                importedDB.stockMoves ||=
+                    [];
+
+                importedDB.sales ||=
+                    [];
+
+                importedDB.suppliers ||=
+                    [];
+
+                importedDB.debts ||=
+                    [];
+
+                importedDB.expenses ||=
+                    [];
+
+
+                const ok =
+                    confirm(
+                        "Restore backup akan mengganti data aplikasi saat ini.\n\nLanjutkan?"
+                    );
+
+
+                if (!ok) {
+
+                    event.target.value =
+                        "";
+
+                    return;
+
+                }
+
+
+                db =
+                    importedDB;
+
+
+                cart =
+                    [];
+
+
+                saveDB();
+
+
+                refreshApplication();
+
+
+                cancelModal();
+
+
+                alert(
+                    "Restore berhasil."
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Restore error:",
+                    error
+                );
+
+
+                alert(
+                    "File backup tidak valid atau rusak."
+                );
+
+            }
+
+
+            if (event?.target) {
+
+                event.target.value =
+                    "";
+
+            }
+
+        };
+
+
+    reader.onerror =
+        function () {
+
+            alert(
+                "File backup gagal dibaca."
+            );
+
+
+            if (event?.target) {
+
+                event.target.value =
+                    "";
+
+            }
+
+        };
+
+
+    reader.readAsText(file);
+
+}
+
+
+/* =========================================================
+   RESET DATA
+========================================================= */
+
+function resetData() {
+
+    const confirm1 =
+        confirm(
+            "PERINGATAN!\n\nSemua data produk, stok, transaksi, supplier, hutang/piutang dan pengeluaran akan dihapus.\n\nLanjutkan?"
+        );
+
+
+    if (!confirm1) return;
+
+
+    const confirm2 =
+        confirm(
+            "Yakin ingin RESET seluruh data aplikasi?"
+        );
+
+
+    if (!confirm2) return;
+
+
+    db =
+        defaultDB();
+
+
+    cart =
+        [];
+
+
+    saveDB();
+
+
+    cancelModal();
+
+
+    refreshApplication();
+
+
+    alert(
+        "Semua data berhasil direset."
+    );
+
+}
+
+
+/* =========================================================
+   REFRESH SELURUH APLIKASI
+========================================================= */
+
+function refreshApplication() {
+
+    products();
+
+    stocks();
+
+    renderPOS();
+
+    renderCart();
+
+    renderSuppliers();
+
+    renderDebts();
+
+    renderReport();
+
+    dashboard();
+
+}
+
+
+/* =========================================================
+   PENGAMAN MODAL
+   KHUSUS TOMBOL BATAL ANDROID
+========================================================= */
+
+function safeCancelModal(event) {
+
+    if (event) {
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+    }
+
+
+    cancelModal();
+
+    return false;
+
+}
+
+
+/* =========================================================
+   PENGAMAN TOMBOL BATAL
+========================================================= */
+
+function protectCancelButtons() {
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            const button =
+                event.target.closest(
+                    ".cancel-button, [data-action='cancel']"
+                );
+
+
+            if (!button) return;
+
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            event.stopImmediatePropagation();
+
+
+            cancelModal();
+
+        },
+        true
+    );
+
+}
+
+
+/* =========================================================
+   KLIK AREA LUAR MODAL
+========================================================= */
+
+function protectModalOutsideClick() {
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            const modalEl =
+                document.getElementById(
+                    "modal"
+                );
+
+
+            if (!modalEl) return;
+
+
+            if (
+                !modalEl.classList.contains(
+                    "show"
+                )
+            ) return;
+
+
+            if (
+                event.target ===
+                modalEl
+            ) {
+
+                cancelModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TOMBOL ESC / BACKSPACE
+========================================================= */
+
+function protectKeyboardCancel() {
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                const modalEl =
+                    document.getElementById(
+                        "modal"
+                    );
+
+
+                if (
+                    modalEl &&
+                    modalEl.classList.contains(
+                        "show"
+                    )
+                ) {
+
+                    event.preventDefault();
+
+                    cancelModal();
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MENU MOBILE
+========================================================= */
+
+function initMobileMenu() {
+
+    const menu =
+        document.getElementById(
+            "menu"
+        );
+
+
+    const nav =
+        document.getElementById(
+            "nav"
+        );
+
+
+    if (
+        !menu ||
+        !nav
+    ) return;
+
+
+    menu.setAttribute(
+        "type",
+        "button"
+    );
+
+
+    menu.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            nav.classList.toggle(
+                "show"
+            );
+
+            nav.classList.toggle(
+                "open"
+            );
+
+        }
+    );
+
+
+    nav.querySelectorAll(
+        "[data-page]"
+    ).forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+                    const page =
+                        this.dataset.page;
+
+
+                    if (!page) return;
+
+
+                    showPage(
+                        page
+                    );
+
+
+                    nav.classList.remove(
+                        "show"
+                    );
+
+                    nav.classList.remove(
+                        "open"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                !nav.contains(
+                    event.target
+                ) &&
+                event.target !==
+                    menu
+            ) {
+
+                nav.classList.remove(
+                    "show"
+                );
+
+                nav.classList.remove(
+                    "open"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   PERBAIKAN NAVIGASI
+========================================================= */
+
+function initNavigation() {
+
+    const nav =
+        document.getElementById(
+            "nav"
+        );
+
+
+    if (!nav) return;
+
+
+    nav.querySelectorAll(
+        "[data-page]"
+    ).forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+
+                    const page =
+                        this.getAttribute(
+                            "data-page"
+                        );
+
+
+                    if (page) {
+
+                        showPage(
+                            page
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   PERBAIKAN MODAL
+========================================================= */
+
+function initModalSystem() {
+
+    const modalEl =
+        document.getElementById(
+            "modal"
+        );
+
+
+    if (!modalEl) return;
+
+
+    modalEl.style.display =
+        "none";
+
+
+    modalEl.style.pointerEvents =
+        "none";
+
+
+    modalEl.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                modalEl
+            ) {
+
+                cancelModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SAFE CANCEL UNTUK ANDROID
+========================================================= */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const target =
+            event.target.closest(
+                "button"
+            );
+
+
+        if (!target) return;
+
+
+        const isCancel =
+            target.classList.contains(
+                "cancel-button"
+            ) ||
+            target.dataset.action ===
+                "cancel";
+
+
+        if (!isCancel) return;
+
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+
+        cancelModal();
+
+    },
+    true
+);
+
+
+/* =========================================================
+   INITIALISASI APLIKASI
+========================================================= */
+
+function initApp
