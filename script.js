@@ -1236,3 +1236,138 @@ if ("serviceWorker" in navigator) {
 
 save();
 render();
+
+
+/* =========================================================
+   KARTU STOK
+========================================================= */
+
+function stockCard() {
+    const products = db.products || [];
+
+    modal(`
+        <h3>Kartu Stok</h3>
+
+        <select id="cardProduct">
+            <option value="">-- Pilih Produk --</option>
+
+            ${products.map(p => `
+                <option value="${p.id}">
+                    ${escapeHTML(p.name)}
+                </option>
+            `).join("")}
+        </select>
+
+        <br><br>
+
+        <button class="gold" onclick="showStockCard()">
+            Tampilkan Kartu Stok
+        </button>
+
+        <button onclick="close()">
+            Tutup
+        </button>
+
+        <div id="stockCardResult"></div>
+    `);
+}
+
+function showStockCard() {
+    const id =
+        document.getElementById("cardProduct").value;
+
+    if (!id) {
+        alert("Pilih produk terlebih dahulu.");
+        return;
+    }
+
+    const p =
+        db.products.find(x => String(x.id) === String(id));
+
+    if (!p) return;
+
+    const moves =
+        (db.stockMoves || [])
+            .filter(x =>
+                String(x.productId) === String(id)
+            )
+            .sort(
+                (a, b) =>
+                    new Date(a.date) -
+                    new Date(b.date)
+            );
+
+    let saldo = 0;
+
+    const rows = moves.map(m => {
+
+        saldo = Number(m.after);
+
+        return `
+            <div class="stock-card-row">
+
+                <div>
+                    <b>
+                        ${new Date(m.date)
+                            .toLocaleString("id-ID")}
+                    </b>
+
+                    <small>
+                        ${escapeHTML(m.note || "-")}
+                    </small>
+                </div>
+
+                <div>
+                    ${
+                        m.type === "masuk"
+                        ? m.qty
+                        : "-"
+                    }
+                </div>
+
+                <div>
+                    ${
+                        m.type === "keluar"
+                        ? m.qty
+                        : "-"
+                    }
+                </div>
+
+                <div>
+                    <b>${saldo}</b>
+                </div>
+
+            </div>
+        `;
+    }).join("");
+
+    document.getElementById("stockCardResult").innerHTML = `
+        <br>
+
+        <h4>
+            ${escapeHTML(p.name)}
+        </h4>
+
+        <p>
+            Stok saat ini:
+            <b>${p.stock} ${escapeHTML(p.unit)}</b>
+        </p>
+
+        <div class="stock-card-head">
+            <b>Waktu</b>
+            <b>Masuk</b>
+            <b>Keluar</b>
+            <b>Saldo</b>
+        </div>
+
+        ${
+            rows ||
+            "<p>Belum ada mutasi untuk produk ini.</p>"
+        }
+    `;
+}
+
+
+
+
+
