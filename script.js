@@ -1694,3 +1694,71 @@ document.addEventListener("click", function (e) {
     }
 
 });
+
+/* =====================================================
+   FAEZA STORE ERP
+   MODAL CANCEL — HARD FIX
+===================================================== */
+
+document.addEventListener("pointerup", function (e) {
+
+    const btn = e.target.closest("#modal button");
+
+    if (!btn) return;
+
+    const text = btn.textContent
+        .trim()
+        .toLowerCase();
+
+    if (text !== "batal") return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    const modal = document.getElementById("modal");
+
+    if (!modal) return;
+
+    modal.innerHTML = "";
+
+    modal.classList.remove("show");
+
+    modal.style.display = "none";
+
+    modal.style.pointerEvents = "none";
+}, true);
+
+
+/* =====================================================
+   FALLBACK TOUCH AND CLICK
+===================================================== */
+
+document.addEventListener("touchend", function (e) {
+
+    const btn = e.target.closest("#modal button");
+
+    if (!btn) return;
+
+    if (
+        btn.textContent
+            .trim()
+            .toLowerCase() !== "batal"
+    ) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    const modal = document.getElementById("modal");
+
+    if (modal) {
+
+        modal.innerHTML = "";
+
+        modal.classList.remove("show");
+
+        modal.style.display = "none";
+
+        modal.style.pointerEvents = "none";
+    }
+
+}, true);
