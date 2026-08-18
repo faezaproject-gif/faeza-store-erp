@@ -14,7 +14,8 @@ const DB_KEY = "FAEZA_ERP_DATABASE_V2";
 let db = {
     products: [],
     customers: [],
-    transactions: []
+    transactions: [],
+    suppliers: []
 };
 
 let cart = [];
@@ -1520,9 +1521,7 @@ function init() {
 
     renderReports();
 
-   renderSuppliers();
-       
-
+   
 
     document.getElementById(
         "addCartButton"
@@ -1594,27 +1593,6 @@ function init() {
         "click",
         clearCustomerForm
     );
-
-   document.getElementById(
-    "saveSupplierButton"
-).addEventListener(
-    "click",
-    saveSupplier
-);
-
-document.getElementById(
-    "cancelSupplierButton"
-).addEventListener(
-    "click",
-    clearSupplierForm
-);
-
-document.getElementById(
-    "supplierSearch"
-).addEventListener(
-    "input",
-    renderSuppliers
-);
    
 }
 
