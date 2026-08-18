@@ -398,3 +398,31 @@ th {
     }
 
   }
+
+@media (max-width: 600px) {
+
+    .side-menu {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        flex-direction: column;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+        box-shadow: 0 8px 20px rgba(0,0,0,.15);
+    }
+
+    .side-menu.open {
+        display: flex;
+    }
+
+    .side-menu button {
+        width: 100%;
+        text-align: left;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+    }
+
+}
