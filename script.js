@@ -1473,20 +1473,22 @@ document.addEventListener(
                 "[data-remove-cart]"
             );
 
-        if (removeCartButton) {
+if (removeCartButton) {
 
-            removeFromCart(
-                removeCartButton.dataset
-                    .removeCart
-           } );
-        }
+    removeFromCart(
+        removeCartButton.dataset
+            .removeCart
+    );
 
-           const deleteSupplierButton =
+}
+
+
+const deleteSupplierButton =
     event.target.closest(
         "[data-delete-supplier]"
     );
 
-           if (deleteSupplierButton) {
+if (deleteSupplierButton) {
 
     deleteSupplier(
         deleteSupplierButton.dataset
@@ -1494,13 +1496,7 @@ document.addEventListener(
     );
 
     return;
-
-                      }
-
-        }
-
-    }
-);
+                         }
 
 /* =====================================================
    INITIALIZATION
