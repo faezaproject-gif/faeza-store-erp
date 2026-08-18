@@ -1762,3 +1762,39 @@ document.addEventListener("touchend", function (e) {
     }
 
 }, true);
+
+/* =====================================================
+   FAEZA ERP - UNIVERSAL MODAL CANCEL
+===================================================== */
+
+function cancelModal() {
+    const modal = document.getElementById("modal");
+
+    if (!modal) return;
+
+    modal.innerHTML = "";
+    modal.className = "";
+    modal.removeAttribute("style");
+
+    /* pastikan benar-benar hilang */
+    modal.style.display = "none";
+    modal.style.pointerEvents = "none";
+}
+
+/* tangkap klik tombol Batal */
+document.addEventListener("click", function (event) {
+
+    const button = event.target.closest("#modal button");
+
+    if (!button) return;
+
+    if (button.textContent.trim().toLowerCase() !== "batal") {
+        return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    cancelModal();
+
+}, true); 
