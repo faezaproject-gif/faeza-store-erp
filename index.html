@@ -26,6 +26,7 @@
     <button data-page="dashboard">📊 Dashboard</button>
     <button data-page="kasir">🛒 Kasir</button>
     <button data-page="produk">📦 Produk & Stok</button>
+    <button data-page="supplier">🚚 Supplier</button>
     <button data-page="pelanggan">👥 Pelanggan</button>
     <button data-page="laporan">📈 Laporan</button>
 </nav>
@@ -240,6 +241,111 @@
         </div>
 
     </section>
+
+    <!-- SUPPLIER -->
+<section id="supplier" class="page">
+
+    <div class="page-title">
+        <h2>Supplier</h2>
+        <p>Kelola data pemasok barang</p>
+    </div>
+
+    <div class="panel">
+
+        <h3>Tambah Supplier</h3>
+
+        <div class="form-grid">
+
+            <input
+                id="supplierCode"
+                type="text"
+                placeholder="Kode supplier (opsional)"
+            >
+
+            <input
+                id="supplierName"
+                type="text"
+                placeholder="Nama supplier"
+            >
+
+            <input
+                id="supplierPhone"
+                type="text"
+                placeholder="Nomor WhatsApp / Telepon"
+            >
+
+            <input
+                id="supplierAddress"
+                type="text"
+                placeholder="Alamat supplier"
+            >
+
+            <input
+                id="supplierNote"
+                type="text"
+                placeholder="Catatan"
+            >
+
+        </div>
+
+        <div class="action-row">
+
+            <button
+                id="saveSupplierButton"
+                class="btn primary">
+                Simpan Supplier
+            </button>
+
+            <button
+                id="cancelSupplierButton"
+                class="btn secondary">
+                Batal
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h3>Daftar Supplier</h3>
+
+            <input
+                id="supplierSearch"
+                type="text"
+                placeholder="Cari supplier..."
+                style="max-width:260px;"
+            >
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Kode</th>
+                        <th>Supplier</th>
+                        <th>Telepon</th>
+                        <th>Alamat</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody id="supplierTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
 
 
     <!-- PELANGGAN -->
