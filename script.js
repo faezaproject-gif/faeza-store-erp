@@ -962,6 +962,247 @@ function renderCustomers() {
     });
 }
 
+/* =====================================================
+   SUPPLIER
+   ===================================================== */
+
+function saveSupplier() {
+
+    const code =
+        document.getElementById(
+            "supplierCode"
+        ).value.trim();
+
+    const name =
+        document.getElementById(
+            "supplierName"
+        ).value.trim();
+
+    const phone =
+        document.getElementById(
+            "supplierPhone"
+        ).value.trim();
+
+    const address =
+        document.getElementById(
+            "supplierAddress"
+        ).value.trim();
+
+    const note =
+        document.getElementById(
+            "supplierNote"
+        ).value.trim();
+
+
+    if (!name) {
+
+        showToast(
+            "Nama supplier wajib diisi"
+        );
+
+        return;
+    }
+
+
+    const supplier = {
+
+        id: generateId("SUP"),
+
+        code:
+            code ||
+            "SUP-" +
+            String(db.suppliers.length + 1)
+                .padStart(3, "0"),
+
+        name,
+
+        phone,
+
+        address,
+
+        note,
+
+        active: true,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    db.suppliers.push(supplier);
+
+    saveDatabase();
+
+    clearSupplierForm();
+
+    renderSuppliers();
+
+    showToast(
+        "Supplier berhasil disimpan"
+    );
+}
+
+
+function clearSupplierForm() {
+
+    document.getElementById(
+        "supplierCode"
+    ).value = "";
+
+    document.getElementById(
+        "supplierName"
+    ).value = "";
+
+    document.getElementById(
+        "supplierPhone"
+    ).value = "";
+
+    document.getElementById(
+        "supplierAddress"
+    ).value = "";
+
+    document.getElementById(
+        "supplierNote"
+    ).value = "";
+}
+
+
+function renderSuppliers() {
+
+    const tbody =
+        document.getElementById(
+            "supplierTableBody"
+        );
+
+    if (!tbody) return;
+
+
+    const search =
+        (
+            document.getElementById(
+                "supplierSearch"
+            )?.value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const suppliers =
+        db.suppliers.filter(
+            supplier => {
+
+                const text =
+                    `${supplier.code}
+                     ${supplier.name}
+                     ${supplier.phone}
+                     ${supplier.address}`
+                    .toLowerCase();
+
+                return text.includes(search);
+
+            }
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    if (suppliers.length === 0) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    Belum ada supplier.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    suppliers.forEach(supplier => {
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>${supplier.code}</td>
+
+            <td>
+                <strong>${supplier.name}</strong>
+            </td>
+
+            <td>
+                ${supplier.phone || "-"}
+            </td>
+
+            <td>
+                ${supplier.address || "-"}
+            </td>
+
+            <td>
+                ${supplier.active
+                    ? "Aktif"
+                    : "Nonaktif"}
+            </td>
+
+            <td>
+
+                <button
+                    class="small-btn delete-btn"
+                    data-delete-supplier="${supplier.id}">
+                    Hapus
+                </button>
+
+            </td>
+
+        `;
+
+
+        tbody.appendChild(row);
+
+    });
+}
+
+
+function deleteSupplier(id) {
+
+    const supplier =
+        db.suppliers.find(
+            item => item.id === id
+        );
+
+
+    if (!supplier) return;
+
+
+    if (!confirm(
+        `Hapus supplier "${supplier.name}"?`
+    )) {
+
+        return;
+
+    }
+
+
+    db.suppliers =
+        db.suppliers.filter(
+            item => item.id !== id
+        );
+
+
+    saveDatabase();
+
+    renderSuppliers();
+
+    showToast(
+        "Supplier berhasil dihapus"
+    );
+}
 
 /* =====================================================
    DASHBOARD
