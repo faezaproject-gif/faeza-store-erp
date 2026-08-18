@@ -1541,4 +1541,184 @@ function showStockCard() {
 }
 
 
+/* =========================================================
+   KARTU STOK + MODAL FIX
+========================================================= */
 
+function stockCard() {
+
+    const products = db.products || [];
+
+    if (!products.length) {
+        alert("Belum ada produk.");
+        return;
+    }
+
+    const options = products.map(p => `
+        <option value="${p.id}">
+            ${escapeHTML(p.name)}
+        </option>
+    `).join("");
+
+    modal(`
+        <h3>📋 Kartu Stok</h3>
+
+        <select id="cardProduct">
+            <option value="">-- Pilih Produk --</option>
+            ${options}
+        </select>
+
+        <br><br>
+
+        <button
+            type="button"
+            class="gold"
+            onclick="showStockCard()">
+            Tampilkan
+        </button>
+
+        <button
+            type="button"
+            onclick="closeModal()">
+            Batal
+        </button>
+
+        <div id="stockCardResult"></div>
+    `);
+}
+
+
+function showStockCard() {
+
+    const select =
+        document.getElementById("cardProduct");
+
+    const result =
+        document.getElementById("stockCardResult");
+
+    if (!select || !result) return;
+
+    if (!select.value) {
+        alert("Pilih produk terlebih dahulu.");
+        return;
+    }
+
+    const product =
+        db.products.find(
+            p => String(p.id) === String(select.value)
+        );
+
+    if (!product) {
+        alert("Produk tidak ditemukan.");
+        return;
+    }
+
+    const moves =
+        (db.stockMoves || [])
+        .filter(
+            m =>
+                String(m.productId) ===
+                String(product.id)
+        )
+        .sort(
+            (a, b) =>
+                new Date(a.date) -
+                new Date(b.date)
+        );
+
+    let html = `
+        <br>
+
+        <div class="card">
+
+            <h3>Kartu Stok</h3>
+
+            <p>
+                Produk:
+                <b>${escapeHTML(product.name)}</b>
+            </p>
+
+            <p>
+                Stok sekarang:
+                <b>
+                    ${product.stock}
+                    ${escapeHTML(product.unit)}
+                </b>
+            </p>
+
+            <hr>
+
+            <div class="row">
+                <b>Waktu</b>
+                <b>Jenis</b>
+                <b>Qty</b>
+                <b>Saldo</b>
+            </div>
+    `;
+
+    if (!moves.length) {
+
+        html += `
+            <p>
+                Belum ada mutasi untuk produk ini.
+            </p>
+        `;
+
+    } else {
+
+        moves.forEach(m => {
+
+            html += `
+                <div class="row">
+
+                    <span>
+                        ${new Date(m.date)
+                            .toLocaleString("id-ID")}
+                    </span>
+
+                    <span>
+                        ${
+                            m.type === "masuk"
+                            ? "MASUK"
+                            : "KELUAR"
+                        }
+                    </span>
+
+                    <span>
+                        ${
+                            m.type === "masuk"
+                            ? "+" + m.qty
+                            : "-" + m.qty
+                        }
+                    </span>
+
+                    <b>
+                        ${m.after}
+                    </b>
+
+                </div>
+            `;
+        });
+    }
+
+    html += `</div>`;
+
+    result.innerHTML = html;
+}
+
+
+/* =========================================================
+   MODAL CLOSE YANG AMAN
+========================================================= */
+
+function closeModal() {
+
+    const modalBox =
+        document.getElementById("modal");
+
+    if (!modalBox) return;
+
+    modalBox.className = "modal";
+
+    modalBox.innerHTML = "";
+}
