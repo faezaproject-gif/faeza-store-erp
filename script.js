@@ -188,6 +188,9 @@ function openPage(pageId) {
     if (pageId === "produk") {
         renderProducts();
     }
+   if (pageId === "supplier") {
+    renderSuppliers();
+   }
 
     if (pageId === "pelanggan") {
         renderCustomers();
@@ -1477,6 +1480,21 @@ document.addEventListener(
                     .removeCart
             );
 
+           const deleteSupplierButton =
+    event.target.closest(
+        "[data-delete-supplier]"
+    );
+
+if (deleteSupplierButton) {
+
+    deleteSupplier(
+        deleteSupplierButton.dataset
+            .deleteSupplier
+    );
+
+    return;
+                      }
+
         }
 
     }
@@ -1503,6 +1521,8 @@ function init() {
     renderCustomers();
 
     renderReports();
+
+   renderSuppliers();
 
 
     document.getElementById(
@@ -1582,4 +1602,27 @@ function init() {
 document.addEventListener(
     "DOMContentLoaded",
     init
+);
+
+document.getElementById(
+    "saveSupplierButton"
+).addEventListener(
+    "click",
+    saveSupplier
+);
+
+
+document.getElementById(
+    "cancelSupplierButton"
+).addEventListener(
+    "click",
+    clearSupplierForm
+);
+
+
+document.getElementById(
+    "supplierSearch"
+).addEventListener(
+    "input",
+    renderSuppliers
 );
