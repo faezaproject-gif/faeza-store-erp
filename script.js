@@ -1521,26 +1521,7 @@ function init() {
     renderReports();
 
    renderSuppliers();
-       document.getElementById(
-        "saveSupplierButton"
-    ).addEventListener(
-        "click",
-        saveSupplier
-    );
-
-    document.getElementById(
-        "cancelSupplierButton"
-    ).addEventListener(
-        "click",
-        clearSupplierForm
-    );
-
-    document.getElementById(
-        "supplierSearch"
-    ).addEventListener(
-        "input",
-        renderSuppliers
-    );
+       
 
 
     document.getElementById(
@@ -1614,6 +1595,27 @@ function init() {
         clearCustomerForm
     );
 
+   document.getElementById(
+    "saveSupplierButton"
+).addEventListener(
+    "click",
+    saveSupplier
+);
+
+document.getElementById(
+    "cancelSupplierButton"
+).addEventListener(
+    "click",
+    clearSupplierForm
+);
+
+document.getElementById(
+    "supplierSearch"
+).addEventListener(
+    "input",
+    renderSuppliers
+);
+   
 }
 
 
