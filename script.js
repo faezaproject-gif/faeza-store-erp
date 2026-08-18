@@ -34,16 +34,20 @@ function loadDatabase() {
             const parsed = JSON.parse(saved);
 
             db = {
-                products: Array.isArray(parsed.products)
-                    ? parsed.products : [],
+    products: Array.isArray(parsed.products)
+        ? parsed.products : [],
 
-                customers: Array.isArray(parsed.customers)
-                    ? parsed.customers : [],
+    customers: Array.isArray(parsed.customers)
+        ? parsed.customers : [],
 
-                transactions: Array.isArray(parsed.transactions)
-                    ? parsed.transactions : []
-            };
-        }
+    transactions: Array.isArray(parsed.transactions)
+        ? parsed.transactions : [],
+
+    suppliers: Array.isArray(parsed.suppliers)
+        ? parsed.suppliers : []
+};
+                
+        
 
     } catch (error) {
 
