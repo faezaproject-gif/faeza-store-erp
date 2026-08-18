@@ -3635,4 +3635,169 @@ document.addEventListener(
    INITIALISASI APLIKASI
 ========================================================= */
 
-function initApp
+function initApp() {
+
+    try {
+
+        /* Pastikan struktur database aman */
+
+        db.products ||=
+            [];
+
+        db.stockMoves ||=
+            [];
+
+        db.sales ||=
+            [];
+
+        db.suppliers ||=
+            [];
+
+        db.debts ||=
+            [];
+
+        db.expenses ||=
+            [];
+
+
+        /* Pastikan cart selalu array */
+
+        if (!Array.isArray(cart)) {
+
+            cart = [];
+
+        }
+
+
+        /* Simpan struktur database */
+
+        saveDB();
+
+
+        /* Sistem navigasi */
+
+        initNavigation();
+
+        initMobileMenu();
+
+
+        /* Sistem modal */
+
+        initModalSystem();
+
+        protectCancelButtons();
+
+        protectModalOutsideClick();
+
+        protectKeyboardCancel();
+
+
+        /* Render awal */
+
+        dashboard();
+
+        renderPOS();
+
+        products();
+
+        stocks();
+
+        renderSuppliers();
+
+        renderDebts();
+
+        renderReport();
+
+        renderCart();
+
+
+        /* Pastikan halaman awal */
+
+        showPage(
+            "dashboard"
+        );
+
+
+        console.log(
+            "FAEZA STORE ERP berhasil diinisialisasi."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Gagal inisialisasi aplikasi:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DOM READY
+========================================================= */
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initApp,
+        {
+            once: true
+        }
+    );
+
+} else {
+
+    initApp();
+
+}
+
+
+/* =========================================================
+   GLOBAL ACCESS
+   UNTUK onclick HTML
+========================================================= */
+
+window.go =
+    go;
+
+window.showPage =
+    showPage;
+
+window.cancelModal =
+    cancelModal;
+
+window.closeModal =
+    closeModal;
+
+window.close =
+    close;
+
+window.safeCancelModal =
+    safeCancelModal;
+
+window.backup =
+    backup;
+
+window.restore =
+    restore;
+
+window.resetData =
+    resetData;
+
+window.renderReport =
+    renderReport;
+
+window.initApp =
+    initApp;
+
+
+/* =========================================================
+   AKHIR BAGIAN 4/4
+   FAEZA STORE ERP
+========================================================= */
