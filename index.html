@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1f3a">
+  <meta name="description" content="Faeza ERP V2 - Sistem Manajemen Toko">
+  <title>Faeza ERP V2</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       APP HEADER
+  ========================== -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-logo">ف</div>
+      <div>
+        <h1>Faeza ERP</h1>
+        <span>Version 2.0</span>
+      </div>
+    </div>
+
+    <button id="menuToggle" class="menu-toggle" type="button">
+      ☰
+    </button>
+  </header>
+
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+  <aside id="sidebar" class="sidebar">
+
+    <div class="sidebar-title">
+      MENU UTAMA
+    </div>
+
+    <button class="nav-item active" data-page="dashboard">
+      <span>📊</span>
+      <span>Dashboard</span>
+    </button>
+
+    <button class="nav-item" data-page="kasir">
+      <span>🛒</span>
+      <span>Kasir / POS</span>
+    </button>
+
+    <button class="nav-item" data-page="produk">
+      <span>📦</span>
+      <span>Produk</span>
+    </button>
+
+    <button class="nav-item" data-page="stok">
+      <span>🏷️</span>
+      <span>Stok</span>
+    </button>
+
+    <button class="nav-item" data-page="supplier">
+      <span>🚚</span>
+      <span>Supplier</span>
+    </button>
+
+    <button class="nav-item" data-page="pembelian">
+      <span>🧾</span>
+      <span>Pembelian</span>
+    </button>
+
+    <button class="nav-item" data-page="hutang">
+      <span>💳</span>
+      <span>Hutang</span>
+    </button>
+
+    <button class="nav-item" data-page="piutang">
+      <span>💰</span>
+      <span>Piutang</span>
+    </button>
+
+    <button class="nav-item" data-page="laporan">
+      <span>📈</span>
+      <span>Laporan</span>
+    </button>
+
+    <button class="nav-item" data-page="pengaturan">
+      <span>⚙️</span>
+      <span>Pengaturan</span>
+    </button>
+
+  </aside>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+  <main id="mainContent" class="main-content">
+
+    <!-- =====================
+         DASHBOARD
+    ====================== -->
+    <section id="page-dashboard" class="page active">
+
+      <div class="page-header">
+        <div>
+          <h2>Dashboard</h2>
+          <p>Ringkasan aktivitas Faeza ERP</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div>
+            <span>Penjualan Hari Ini</span>
+            <strong id="dashSales">Rp 0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">📦</div>
+          <div>
+            <span>Total Produk</span>
+            <strong id="dashProducts">0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🚚</div>
+          <div>
+            <span>Total Supplier</span>
+            <strong id="dashSuppliers">0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">💳</div>
+          <div>
+            <span>Total Hutang</span>
+            <strong id="dashDebt">Rp 0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">💵</div>
+          <div>
+            <span>Total Piutang</span>
+            <strong id="dashReceivable">Rp 0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🏷️</div>
+          <div>
+            <span>Nilai Persediaan</span>
+            <strong id="dashStockValue">Rp 0</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="dashboard-grid">
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Transaksi Terakhir</h3>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>No. Transaksi</th>
+                  <th>Jenis</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="recentTransactions">
+                <tr>
+                  <td colspan="4" class="empty-state">
+                    Belum ada transaksi
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Stok Menipis</h3>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produk</th>
+                  <th>Stok</th>
+                  <th>Minimum</th>
+                </tr>
+              </thead>
+              <tbody id="lowStockList">
+                <tr>
+                  <td colspan="3" class="empty-state">
+                    Tidak ada stok menipis
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         KASIR
+    ====================== -->
+    <section id="page-kasir" class="page">
+
+      <div class="page-header">
+        <div>
+          <h2>Kasir / POS</h2>
+          <p>Transaksi penjualan</p>
+        </div>
+
+        <button id="btnCancelSale" class="btn btn-danger" type="button">
+          Batal
+        </button>
+      </div>
+
+      <div class="pos-layout">
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <h3>Pilih Produk</h3>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label for="saleProduct">Produk</label>
+              <select id="saleProduct">
+                <option value="">-- Pilih Produk --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="saleQty">Qty</label>
+              <input id="saleQty" type="number" min="1" value="1">
+            </div>
+
+          </div>
+
+          <button id="btnAddToCart" class="btn btn-primary" type="button">
+            + Tambah ke Keranjang
+          </button>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <h3>Keranjang</h3>
+
+            <button id="btnClearCart" class="btn btn-secondary" type="button">
+              Kosongkan
+            </button>
+          </div>
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Produk</th>
+                  <th>Harga</th>
+                  <th>Qty</th>
+                  <th>Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody id="cartTable">
+                <tr>
+                  <td colspan="5" class="empty-state">
+                    Keranjang kosong
+                  </td>
+                </tr>
+              </tbody>
+
+            </table>
+
+          </div>
+
+          <div class="total-box">
+            <span>Total</span>
+            <strong id="cartTotal">Rp 0</strong>
+          </div>
+
+          <button id="btnSaveSale" class="btn btn-success btn-block" type="button">
+            Simpan Penjualan
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         PRODUK
+    ====================== -->
+    <section id="page-produk" class="page">
+
+      <div class="page-header">
+        <div>
+          <h2>Produk</h2>
+          <p>Master data barang</p>
+        </div>
+
+        <button id="btnAddProduct" class="btn btn-primary" type="button">
+          + Produk Baru
+        </button>
+      </div>
+
+      <div class="panel">
+
+        <div class="toolbar">
+          <input
+            id="productSearch"
+            class="search-input"
+            type="search"
+            placeholder="Cari produk..."
+          >
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Kode</th>
+                <th>Produk</th>
+                <th>Satuan</th>
+                <th>Harga Beli</th>
+                <th>Harga Jual</th>
+                <th>Stok</th>
+                <th>Min.</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody id="productTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         STOK
+    ====================== -->
+    <section id="page-stok" class="page">
+
+      <div class="page-header">
+        <div>
+          <h2>Stok</h2>
+          <p>Stok masuk, keluar dan kartu stok</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-icon">📥</div>
+          <div>
+            <span>Total Stok Masuk</span>
+            <strong id="stockInTotal">0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">📤</div>
+          <div>
+            <span>Total Stok Keluar</span>
+            <strong id="stockOutTotal">0</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="panel-header">
+          <h3>Kartu Stok</h3>
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Produk</th>
+                <th>Jenis</th>
+                <th>Referensi</th>
+                <th>Qty</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+
+            <tbody id="stockTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         SUPPLIER
+    ====================== -->
+    <section id="page-supplier" class="page">
+
+      <div class="page-header">
+        <div>
+          <h2>Supplier</h2>
+          <p>Master pemasok barang</p>
+        </div>
+
+        <button id="btnAddSupplier" class="btn btn-primary" type="button">
+          + Supplier Baru
+        </button>
+      </div>
+
+      <div class="panel">
+
+        <div class="toolbar">
+          <input
+            id="supplierSearch"
+            class="search-input"
+            type="search"
+            placeholder="Cari supplier..."
+          >
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Kode</th>
+                <th>Nama Supplier</th>
+                <th>Kontak</th>
+                <th>Telepon</th>
+                <th>Alamat</th>
+                <th>Hutang</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody id="supplierTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         PEMBELIAN
+    ====================== -->
+    <section id="page-pembelian" class="page">
+
+      <div class="page-header">
+
+        <div>
+          <h2>Pembelian / Stok Masuk</h2>
+          <p>Penerimaan barang dari supplier</p>
+        </div>
+
+        <button id="btnCancelPurchase" class="btn btn-danger" type="button">
+          Batal
+        </button>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="purchaseSupplier">Supplier</label>
+
+            <select id="purchaseSupplier">
+              <option value="">-- Pilih Supplier --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="purchaseInvoice">No. Faktur</label>
+
+            <input
+              id="purchaseInvoice"
+              type="text"
+              placeholder="Nomor faktur supplier"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="purchaseDate">Tanggal</label>
+
+            <input
+              id="purchaseDate"
+              type="date"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="purchasePayment">Pembayaran</label>
+
+            <select id="purchasePayment">
+              <option value="cash">Tunai</option>
+              <option value="credit">Hutang</option>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="panel-header">
+          <h3>Barang Pembelian</h3>
+
+          <button id="btnAddPurchaseItem" class="btn btn-primary" type="button">
+            + Tambah Barang
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Produk</th>
+                <th>Qty</th>
+                <th>Harga Beli</th>
+                <th>Subtotal</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody id="purchaseTable">
+
+              <tr>
+                <td colspan="5" class="empty-state">
+                  Belum ada barang
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="total-box">
+
+          <span>Total Pembelian</span>
+
+          <strong id="purchaseTotal">
+            Rp 0
+          </strong>
+
+        </div>
+
+        <button
+          id="btnSavePurchase"
+          class="btn btn-success btn-block"
+          type="button"
+        >
+          Simpan Pembelian & Stok Masuk
+        </button>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="panel-header">
+          <h3>Riwayat Pembelian</h3>
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>No. Faktur</th>
+                <th>Supplier</th>
+                <th>Pembayaran</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody id="purchaseHistory"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         HUTANG
+    ====================== -->
+    <section id="page-hutang" class="page">
+
+      <div class="page-header">
+        <div>
+          <h2>Hutang</h2>
+          <p>Hutang pembelian kepada supplier</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-icon">💳</div>
+          <div>
+            <span>Total Hutang</span>
+            <strong id="debtTotal">Rp 0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">⚠️</div>
+          <div>
+            <span>Belum Lunas</span>
+            <strong id="debtOutstanding">Rp 0</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>No. Faktur</th>
+                <th>Supplier</th>
+                <th>Total</th>
+                <th>Terbayar</th>
+                <th>Sisa</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody id="debtTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         PIUTANG
+    ====================== -->
+    <section id="page-piutang" class="page">
+
+      <div class="page-header">
+
+        <div>
+          <h2>Piutang</h2>
+          <p>Piutang dari pelanggan</p>
+        </div>
+
+        <button id="btnAddReceivable" class="btn btn-primary" type="button">
+          + Piutang Baru
+        </button>
+
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div>
+            <span>Total Piutang</span>
+            <strong id="receivableTotal">Rp 0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">⚠️</div>
+          <div>
+            <span>Belum Lunas</span>
+            <strong id="receivableOutstanding">Rp 0</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Pelanggan</th>
+                <th>Referensi</th>
+                <th>Total</th>
+                <th>Terbayar</th>
+                <th>Sisa</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody id="receivableTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         LAPORAN
+    ====================== -->
+    <section id="page-laporan" class="page">
+
+      <div class="page-header">
+
+        <div>
+          <h2>Laporan</h2>
+          <p>Ringkasan transaksi dan keuangan</p>
+        </div>
+
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div>
+            <span>Penjualan</span>
+            <strong id="reportSales">Rp 0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🧾</div>
+          <div>
+            <span>Pembelian</span>
+            <strong id="reportPurchases">Rp 0</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">📈</div>
+          <div>
+            <span>Laba Kotor</span>
+            <strong id="reportProfit">Rp 0</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="panel-header">
+          <h3>Ringkasan Transaksi</h3>
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Referensi</th>
+                <th>Jenis</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+
+            <tbody id="reportTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         PENGATURAN
+    ====================== -->
+    <section id="page-pengaturan" class="page">
+
+      <div class="page-header">
+
+        <div>
+          <h2>Pengaturan</h2>
+          <p>Pengaturan sistem Faeza ERP</p>
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="storeName">
+              Nama Toko
+            </label>
+
+            <input
+              id="storeName"
+              type="text"
+              value="Faeza Store"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="storePhone">
+              Nomor Telepon
+            </label>
+
+            <input
+              id="storePhone"
+              type="text"
+              placeholder="08xxxxxxxxxx"
+            >
+          </div>
+
+        </div>
+
+        <div class="button-row">
+
+          <button
+            id="btnSaveSettings"
+            class="btn btn-success"
+            type="button"
+          >
+            Simpan Pengaturan
+          </button>
+
+          <button
+            id="btnResetData"
+            class="btn btn-danger"
+            type="button"
+          >
+            Reset Data ERP
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+   <!-- =========================
+       MODAL
+  ========================== -->
+  <div id="modalOverlay" class="modal-overlay">
+
+    <div id="modal" class="modal">
+
+      <div class="modal-header">
+
+        <h3 id="modalTitle">
+          Form
+        </h3>
+
+        <button
+          id="modalClose"
+          class="modal-close"
+          type="button"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div id="modalBody" class="modal-body"></div>
+
+      <div class="modal-footer">
+
+        <button
+          id="modalCancel"
+          class="btn btn-secondary"
+          type="button"
+        >
+          Batal
+        </button>
+
+        <button
+          id="modalSave"
+          class="btn btn-primary"
+          type="button"
+        >
+          Simpan
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       TOAST
+  ========================== -->
+  <div id="toast" class="toast"></div>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+  <script src="script.js"></script>
+
+</body>
+</html>
