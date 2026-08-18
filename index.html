@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b1f3a"
+  >
+
+  <meta
+    name="description"
+    content="Faeza ERP V2 - Sistem Manajemen Toko"
+  >
+
+  <title>Faeza ERP V2</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <link
+    rel="manifest"
+    href="manifest.json"
+  >
+
+  <link
+    rel="icon"
+    href="assets/icon-192.png"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    href="assets/icon-192.png"
+  >
+</head>
+
+<body>
+
+<!-- =====================================================
+     MOBILE HEADER
+===================================================== -->
+
+<header class="mobile-header">
+
+  <button
+    id="menuToggle"
+    class="menu-toggle"
+    type="button"
+    aria-label="Buka menu"
+  >
+    ☰
+  </button>
+
+  <div class="mobile-brand">
+    <span class="brand-symbol">ف</span>
+    <span>FAEZA ERP</span>
+  </div>
+
+</header>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside id="sidebar" class="sidebar">
+
+  <div class="sidebar-brand">
+
+    <div class="brand-logo">
+      ف
+    </div>
+
+    <div>
+      <strong>FAEZA ERP</strong>
+      <small>Version 2.0</small>
+    </div>
+
+  </div>
+
+
+  <nav class="navigation">
+
+    <button
+      class="nav-item active"
+      data-page="dashboard"
+      type="button"
+    >
+      <span>⌂</span>
+      <span>Dashboard</span>
+    </button>
+
+
+    <div class="nav-section">
+      MASTER DATA
+    </div>
+
+    <button
+      class="nav-item"
+      data-page="produk"
+      type="button"
+    >
+      <span>▣</span>
+      <span>Produk</span>
+    </button>
+
+    <button
+      class="nav-item"
+      data-page="supplier"
+      type="button"
+    >
+      <span>♙</span>
+      <span>Supplier</span>
+    </button>
+
+
+    <div class="nav-section">
+      TRANSAKSI
+    </div>
+
+    <button
+      class="nav-item"
+      data-page="kasir"
+      type="button"
+    >
+      <span>▤</span>
+      <span>Kasir / Penjualan</span>
+    </button>
+
+    <button
+      class="nav-item"
+      data-page="pembelian"
+      type="button"
+    >
+      <span>⇩</span>
+      <span>Pembelian / Stok Masuk</span>
+    </button>
+
+
+    <div class="nav-section">
+      KEUANGAN
+    </div>
+
+    <button
+      class="nav-item"
+      data-page="hutang"
+      type="button"
+    >
+      <span>₽</span>
+      <span>Hutang</span>
+    </button>
+
+    <button
+      class="nav-item"
+      data-page="piutang"
+      type="button"
+    >
+      <span>Rp</span>
+      <span>Piutang</span>
+    </button>
+
+
+    <div class="nav-section">
+      INVENTORY
+    </div>
+
+    <button
+      class="nav-item"
+      data-page="stok"
+      type="button"
+    >
+      <span>▦</span>
+      <span>Kartu Stok</span>
+    </button>
+
+
+    <div class="nav-section">
+      LAPORAN
+    </div>
+
+    <button
+      class="nav-item"
+      data-page="laporan"
+      type="button"
+    >
+      <span>▥</span>
+      <span>Laporan</span>
+    </button>
+
+
+    <div class="nav-section">
+      SISTEM
+    </div>
+
+    <button
+      class="nav-item"
+      data-page="pengaturan"
+      type="button"
+    >
+      <span>⚙</span>
+      <span>Pengaturan</span>
+    </button>
+
+  </nav>
+
+
+  <div class="sidebar-footer">
+    <small>Faeza ERP V2</small>
+    <small>Offline Ready</small>
+  </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main-content">
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section
+  id="page-dashboard"
+  class="page active"
+>
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        FAEZA ERP V2
+      </span>
+
+      <h1>Dashboard</h1>
+
+      <p>
+        Pusat kontrol operasional toko.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        Rp
+      </div>
+
+      <div>
+        <span>Penjualan Hari Ini</span>
+
+        <strong id="dashSales">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        ▣
+      </div>
+
+      <div>
+        <span>Total Produk</span>
+
+        <strong id="dashProducts">
+          0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        ♙
+      </div>
+
+      <div>
+        <span>Total Supplier</span>
+
+        <strong id="dashSuppliers">
+          0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card warning-card">
+
+      <div class="stat-icon">
+        !
+      </div>
+
+      <div>
+        <span>Hutang Berjalan</span>
+
+        <strong id="dashDebt">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        Rp
+      </div>
+
+      <div>
+        <span>Piutang Berjalan</span>
+
+        <strong id="dashReceivable">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        ▦
+      </div>
+
+      <div>
+        <span>Nilai Persediaan</span>
+
+        <strong id="dashStockValue">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="dashboard-grid">
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <div>
+          <h2>Transaksi Terbaru</h2>
+          <p>10 transaksi terakhir</p>
+        </div>
+
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Referensi</th>
+              <th>Jenis</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+
+          <tbody id="recentTransactions">
+            <tr>
+              <td colspan="4" class="empty-state">
+                Belum ada transaksi
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <div>
+          <h2>Stok Menipis</h2>
+          <p>Perlu segera diperhatikan</p>
+        </div>
+
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Produk</th>
+              <th>Stok</th>
+              <th>Minimum</th>
+            </tr>
+          </thead>
+
+          <tbody id="lowStockList">
+            <tr>
+              <td colspan="3" class="empty-state">
+                Belum ada data
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PRODUK
+===================================================== -->
+
+<section
+  id="page-produk"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        MASTER DATA
+      </span>
+
+      <h1>Produk</h1>
+
+      <p>
+        Kelola produk, harga, dan persediaan.
+      </p>
+    </div>
+
+    <button
+      id="btnAddProduct"
+      class="btn btn-primary"
+      type="button"
+    >
+      + Tambah Produk
+    </button>
+
+  </div>
+
+
+  <div class="toolbar">
+
+    <input
+      id="productSearch"
+      class="search-input"
+      type="search"
+      placeholder="Cari kode atau nama produk..."
+    >
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Kode</th>
+            <th>Nama Produk</th>
+            <th>Satuan</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+            <th>Stok</th>
+            <th>Min. Stok</th>
+            <th>Aksi</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="productTable">
+
+          <tr>
+            <td colspan="8" class="empty-state">
+              Belum ada produk
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     SUPPLIER
+===================================================== -->
+
+<section
+  id="page-supplier"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        MASTER DATA
+      </span>
+
+      <h1>Supplier</h1>
+
+      <p>
+        Kelola pemasok barang dan saldo hutang.
+      </p>
+    </div>
+
+    <button
+      id="btnAddSupplier"
+      class="btn btn-primary"
+      type="button"
+    >
+      + Tambah Supplier
+    </button>
+
+  </div>
+
+
+  <div class="toolbar">
+
+    <input
+      id="supplierSearch"
+      class="search-input"
+      type="search"
+      placeholder="Cari supplier..."
+    >
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Kode</th>
+            <th>Supplier</th>
+            <th>Kontak</th>
+            <th>Telepon</th>
+            <th>Alamat</th>
+            <th>Hutang</th>
+            <th>Aksi</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="supplierTable">
+
+          <tr>
+            <td colspan="7" class="empty-state">
+              Belum ada supplier
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     KASIR
+===================================================== -->
+
+<section
+  id="page-kasir"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        TRANSAKSI
+      </span>
+
+      <h1>Kasir / Penjualan</h1>
+
+      <p>
+        Penjualan barang dan pengurangan stok otomatis.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="pos-layout">
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <div>
+          <h2>Tambah Barang</h2>
+          <p>Pilih produk untuk dimasukkan ke keranjang.</p>
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label for="saleProduct">
+            Produk
+          </label>
+
+          <select id="saleProduct">
+            <option value="">
+              -- Pilih Produk --
+            </option>
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="saleQty">
+            Jumlah
+          </label>
+
+          <input
+            id="saleQty"
+            type="number"
+            min="1"
+            value="1"
+          >
+
+        </div>
+
+      </div>
+
+
+      <button
+        id="btnAddToCart"
+        class="btn btn-primary"
+        type="button"
+      >
+        + Masukkan Keranjang
+      </button>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <div>
+          <h2>Keranjang</h2>
+          <p>Daftar barang yang akan dijual.</p>
+        </div>
+
+        <button
+          id="btnClearCart"
+          class="btn btn-outline-danger"
+          type="button"
+        >
+          Kosongkan
+        </button>
+
+      </div>
+
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Produk</th>
+              <th>Harga</th>
+              <th>Qty</th>
+              <th>Subtotal</th>
+              <th>Aksi</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="cartTable">
+
+            <tr>
+              <td colspan="5" class="empty-state">
+                Keranjang kosong
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div class="transaction-footer">
+
+        <div class="grand-total">
+
+          <span>Total</span>
+
+          <strong id="cartTotal">
+            Rp0
+          </strong>
+
+        </div>
+
+
+        <div class="button-row">
+
+          <button
+            id="btnCancelSale"
+            class="btn btn-outline-danger"
+            type="button"
+          >
+            Batal
+          </button>
+
+          <button
+            id="btnSaveSale"
+            class="btn btn-primary"
+            type="button"
+          >
+            Simpan Penjualan
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PEMBELIAN
+===================================================== -->
+
+<section
+  id="page-pembelian"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        TRANSAKSI
+      </span>
+
+      <h1>Pembelian / Stok Masuk</h1>
+
+      <p>
+        Pembelian supplier akan otomatis menambah stok.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label for="purchaseSupplier">
+          Supplier
+        </label>
+
+        <select id="purchaseSupplier">
+
+          <option value="">
+            -- Pilih Supplier --
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="purchaseInvoice">
+          No. Invoice
+        </label>
+
+        <input
+          id="purchaseInvoice"
+          type="text"
+          placeholder="Nomor invoice supplier"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="purchaseDate">
+          Tanggal
+        </label>
+
+        <input
+          id="purchaseDate"
+          type="date"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="purchasePayment">
+          Metode Pembayaran
+        </label>
+
+        <select id="purchasePayment">
+
+          <option value="cash">
+            Tunai / Lunas
+          </option>
+
+          <option value="credit">
+            Kredit / Hutang
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="panel-header">
+
+      <div>
+        <h2>Barang Pembelian</h2>
+        <p>
+          Barang yang masuk akan menambah stok.
+        </p>
+      </div>
+
+      <button
+        id="btnAddPurchaseItem"
+        class="btn btn-primary"
+        type="button"
+      >
+        + Tambah Barang
+      </button>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Produk</th>
+            <th>Qty</th>
+            <th>Harga Beli</th>
+            <th>Subtotal</th>
+            <th>Aksi</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="purchaseTable">
+
+          <tr>
+            <td colspan="5" class="empty-state">
+              Belum ada barang
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="transaction-footer">
+
+      <div class="grand-total">
+
+        <span>Total Pembelian</span>
+
+        <strong id="purchaseTotal">
+          Rp0
+        </strong>
+
+      </div>
+
+
+      <div class="button-row">
+
+        <button
+          id="btnCancelPurchase"
+          class="btn btn-outline-danger"
+          type="button"
+        >
+          Batal
+        </button>
+
+        <button
+          id="btnSavePurchase"
+          class="btn btn-primary"
+          type="button"
+        >
+          Simpan Pembelian
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="panel-header">
+
+      <div>
+        <h2>Riwayat Pembelian</h2>
+      </div>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Tanggal</th>
+            <th>Invoice</th>
+            <th>Supplier</th>
+            <th>Pembayaran</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="purchaseHistory">
+
+          <tr>
+            <td colspan="6" class="empty-state">
+              Belum ada pembelian
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     HUTANG
+===================================================== -->
+
+<section
+  id="page-hutang"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        KEUANGAN
+      </span>
+
+      <h1>Hutang</h1>
+
+      <p>
+        Hutang supplier yang berasal dari pembelian kredit.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="stats-grid compact">
+
+    <div class="stat-card">
+
+      <div>
+        <span>Total Hutang</span>
+
+        <strong id="debtTotal">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card warning-card">
+
+      <div>
+        <span>Sisa Hutang</span>
+
+        <strong id="debtOutstanding">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Tanggal</th>
+            <th>Invoice</th>
+            <th>Supplier</th>
+            <th>Total</th>
+            <th>Terbayar</th>
+            <th>Sisa</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="debtTable">
+
+          <tr>
+            <td colspan="8" class="empty-state">
+              Belum ada hutang
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PIUTANG
+===================================================== -->
+
+<section
+  id="page-piutang"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        KEUANGAN
+      </span>
+
+      <h1>Piutang</h1>
+
+      <p>
+        Pengelolaan piutang pelanggan.
+      </p>
+
+    </div>
+
+
+    <button
+      id="btnAddReceivable"
+      class="btn btn-primary"
+      type="button"
+    >
+      + Tambah Piutang
+    </button>
+
+  </div>
+
+
+  <div class="stats-grid compact">
+
+    <div class="stat-card">
+
+      <div>
+        <span>Total Piutang</span>
+
+        <strong id="receivableTotal">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div>
+        <span>Sisa Piutang</span>
+
+        <strong id="receivableOutstanding">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Tanggal</th>
+            <th>Pelanggan</th>
+            <th>Referensi</th>
+            <th>Total</th>
+            <th>Terbayar</th>
+            <th>Sisa</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="receivableTable">
+
+          <tr>
+            <td colspan="8" class="empty-state">
+              Belum ada piutang
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     STOK
+===================================================== -->
+
+<section
+  id="page-stok"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        INVENTORY
+      </span>
+
+      <h1>Kartu Stok</h1>
+
+      <p>
+        Riwayat stok masuk dan stok keluar.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="stats-grid compact">
+
+    <div class="stat-card">
+
+      <div>
+        <span>Total Stok Masuk</span>
+
+        <strong id="stockInTotal">
+          0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div>
+        <span>Total Stok Keluar</span>
+
+        <strong id="stockOutTotal">
+          0
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Tanggal</th>
+            <th>Produk</th>
+            <th>Jenis</th>
+            <th>Referensi</th>
+            <th>Qty</th>
+            <th>Saldo</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="stockTable">
+
+          <tr>
+            <td colspan="6" class="empty-state">
+              Belum ada pergerakan stok
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     LAPORAN
+===================================================== -->
+
+<section
+  id="page-laporan"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        LAPORAN
+      </span>
+
+      <h1>Laporan</h1>
+
+      <p>
+        Ringkasan penjualan, pembelian dan laba kotor.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- RINGKASAN LAPORAN -->
+
+  <div class="stats-grid compact">
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        Rp
+      </div>
+
+      <div>
+        <span>Total Penjualan</span>
+
+        <strong id="reportSales">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        ⇩
+      </div>
+
+      <div>
+        <span>Total Pembelian</span>
+
+        <strong id="reportPurchases">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        ↑
+      </div>
+
+      <div>
+        <span>Laba Kotor</span>
+
+        <strong id="reportProfit">
+          Rp0
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- TABEL TRANSAKSI -->
+
+  <div class="panel">
+
+    <div class="panel-header">
+
+      <div>
+
+        <h2>
+          Ringkasan Transaksi
+        </h2>
+
+        <p>
+          Riwayat penjualan dan pembelian.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Tanggal
+            </th>
+
+            <th>
+              Referensi
+            </th>
+
+            <th>
+              Jenis
+            </th>
+
+            <th>
+              Total
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="reportTable">
+
+          <tr>
+
+            <td
+              colspan="4"
+              class="empty-state"
+            >
+              Belum ada transaksi
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PENGATURAN
+===================================================== -->
+
+<section
+  id="page-pengaturan"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+
+      <span class="eyebrow">
+        SISTEM
+      </span>
+
+      <h1>
+        Pengaturan
+      </h1>
+
+      <p>
+        Pengaturan dasar aplikasi Faeza ERP.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- IDENTITAS TOKO -->
+
+  <div class="panel">
+
+    <div class="panel-header">
+
+      <div>
+
+        <h2>
+          Identitas Toko
+        </h2>
+
+        <p>
+          Informasi dasar toko.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group">
+
+        <label for="storeName">
+          Nama Toko
+        </label>
+
+        <input
+          id="storeName"
+          type="text"
+          placeholder="Nama toko"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="storePhone">
+          Nomor Telepon
+        </label>
+
+        <input
+          id="storePhone"
+          type="text"
+          placeholder="Nomor WhatsApp / Telepon"
+        >
+
+      </div>
+
+
+    </div>
+
+
+    <div class="button-row">
+
+      <button
+        id="btnSaveSettings"
+        class="btn btn-primary"
+        type="button"
+      >
+        Simpan Pengaturan
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- DATABASE -->
+
+  <div class="panel danger-panel">
+
+    <div class="panel-header">
+
+      <div>
+
+        <h2>
+          Database
+        </h2>
+
+        <p>
+          Reset akan menghapus seluruh data lokal
+          Faeza ERP V2.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <button
+      id="btnResetData"
+      class="btn btn-danger"
+      type="button"
+    >
+      Reset Semua Data
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+  id="modalOverlay"
+  class="modal-overlay"
+>
+
+  <div
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+
+
+    <!-- MODAL HEADER -->
+
+    <div class="modal-header">
+
+      <h2 id="modalTitle">
+        Form
+      </h2>
+
+
+      <button
+        id="modalClose"
+        class="modal-close"
+        type="button"
+        aria-label="Tutup"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- MODAL BODY -->
+
+    <div
+      id="modalBody"
+      class="modal-body"
+    >
+    </div>
+
+
+    <!-- MODAL FOOTER -->
+
+    <div class="modal-footer">
+
+      <button
+        id="modalCancel"
+        class="btn btn-outline"
+        type="button"
+      >
+        Batal
+      </button>
+
+
+      <button
+        id="modalSave"
+        class="btn btn-primary"
+        type="button"
+      >
+        Simpan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST / NOTIFICATION
+===================================================== -->
+
+<div
+  id="toast"
+  class="toast"
+  role="status"
+  aria-live="polite"
+>
+  Berhasil
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="script.js"></script>
+
+</body>
+
+        </html>
