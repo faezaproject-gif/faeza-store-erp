@@ -698,6 +698,7 @@ function renderProducts() {
             <th>Produk</th>
             <th>Stok</th>
             <th>Harga Jual</th>
+<th>Aksi</th>
 
           </tr>
 
@@ -727,6 +728,28 @@ function renderProducts() {
                   <td>
                     ${money(product.sell)}
                   </td>
+                  
+                  <td>
+  <div class="action-row">
+
+    <button
+      type="button"
+      class="button-secondary"
+      data-edit-product="${product.id}"
+    >
+      Edit
+    </button>
+
+    <button
+      type="button"
+      class="button-danger"
+      data-delete-product="${product.id}"
+    >
+      Hapus
+    </button>
+
+  </div>
+</td>
 
                 </tr>
 
