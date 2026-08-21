@@ -3013,39 +3013,62 @@ function setupApplicationEvents() {
   );
 
 
-  /*
-     EVENT DELEGATION
-     HANYA UNTUK PRODUK KASIR
-  */
+document.addEventListener(
+  "click",
+  function (event) {
 
-  document.addEventListener(
-    "click",
-    function (event) {
+    // KASIR
+    const cartButton =
+      event.target.closest(
+        "[data-add-cart]"
+      );
 
-      const cartButton =
-        event.target.closest(
-          "[data-add-cart]"
-        );
-
-
-      if (!cartButton) {
-        return;
-      }
-
+    if (cartButton) {
 
       const productId =
         cartButton.dataset.addCart;
 
+      addToCart(productId);
 
-      addToCart(
-        productId
+      return;
+    }
+
+
+    // EDIT SUPPLIER
+    const editSupplierButton =
+      event.target.closest(
+        "[data-edit-supplier]"
       );
 
+    if (editSupplierButton) {
+
+      editSupplier(
+        editSupplierButton.dataset
+          .editSupplier
+      );
+
+      return;
     }
-  );
 
-       }
 
+    // HAPUS SUPPLIER
+    const deleteSupplierButton =
+      event.target.closest(
+        "[data-delete-supplier]"
+      );
+
+    if (deleteSupplierButton) {
+
+      deleteSupplier(
+        deleteSupplierButton.dataset
+          .deleteSupplier
+      );
+
+      return;
+    }
+
+  }
+);
 
 
 
