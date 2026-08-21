@@ -767,6 +767,116 @@ function renderProducts() {
 
 }
 
+function editProduct(id) {
+
+  const product =
+    db.products.find(
+      item => item.id === id
+    );
+
+  if (!product) {
+    showToast(
+      "Produk tidak ditemukan."
+    );
+    return;
+  }
+
+  const name =
+    prompt(
+      "Nama produk:",
+      product.name
+    );
+
+  if (name === null) {
+    return;
+  }
+
+  const cleanName =
+    name.trim();
+
+  if (!cleanName) {
+    showToast(
+      "Nama produk wajib diisi."
+    );
+    return;
+  }
+
+  const category =
+    prompt(
+      "Kategori:",
+      product.category || ""
+    );
+
+  if (category === null) {
+    return;
+  }
+
+  const unit =
+    prompt(
+      "Satuan:",
+      product.unit || "pcs"
+    );
+
+  if (unit === null) {
+    return;
+  }
+
+  const buy =
+    prompt(
+      "Harga beli:",
+      product.buy || 0
+    );
+
+  if (buy === null) {
+    return;
+  }
+
+  const sell =
+    prompt(
+      "Harga jual:",
+      product.sell || 0
+    );
+
+  if (sell === null) {
+    return;
+  }
+
+  const minStock =
+    prompt(
+      "Minimum stok:",
+      product.minStock || 0
+    );
+
+  if (minStock === null) {
+    return;
+  }
+
+  product.name =
+    cleanName;
+
+  product.category =
+    category.trim();
+
+  product.unit =
+    unit.trim() || "pcs";
+
+  product.buy =
+    Number(buy) || 0;
+
+  product.sell =
+    Number(sell) || 0;
+
+  product.minStock =
+    Number(minStock) || 0;
+
+  saveDatabase();
+
+  renderAll();
+
+  showToast(
+    "Produk berhasil diperbarui."
+  );
+}
 
 /* =========================================================
    SUPPLIER
