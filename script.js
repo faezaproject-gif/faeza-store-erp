@@ -889,6 +889,7 @@ function renderSuppliers() {
             <th>Supplier</th>
             <th>Telepon</th>
             <th>Alamat</th>
+            <th>Aksi</th>
 
           </tr>
 
