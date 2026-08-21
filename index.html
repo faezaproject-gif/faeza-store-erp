@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta name="theme-color" content="#0b1730">
+
+  <title>Faeza ERP V2</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+  <header class="topbar">
+
+    <button
+      id="menuButton"
+      type="button"
+      class="menu-button"
+      aria-label="Buka menu"
+    >
+      ☰
+    </button>
+
+    <div class="brand">
+      <strong>FAEZA ERP</strong>
+      <small>Management System V2</small>
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       BACKDROP
+  ========================== -->
+  <div
+    id="menuBackdrop"
+    class="menu-backdrop"
+  ></div>
+
+
+  <!-- =========================
+       SIDE MENU
+  ========================== -->
+  <aside
+    id="sideMenu"
+    class="side-menu"
+  >
+
+    <div class="side-menu-header">
+
+      <div>
+        <strong>FAEZA ERP</strong>
+        <small>V2</small>
+      </div>
+
+      <button
+        id="closeMenu"
+        type="button"
+        class="close-menu"
+        aria-label="Tutup menu"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <nav
+      id="mainNavigation"
+      class="main-navigation"
+    >
+
+      <button
+        type="button"
+        data-page="dashboard"
+      >
+        📊 Dashboard
+      </button>
+
+      <button
+        type="button"
+        data-page="cashier"
+      >
+        🛒 Kasir
+      </button>
+
+      <button
+        type="button"
+        data-page="products"
+      >
+        📦 Produk & Stok
+      </button>
+
+      <button
+        type="button"
+        data-page="suppliers"
+      >
+        🚚 Supplier
+      </button>
+
+      <button
+        type="button"
+        data-page="purchases"
+      >
+        📥 Pembelian / Stok Masuk
+      </button>
+
+      <button
+        type="button"
+        data-page="debts"
+      >
+        💰 Hutang
+      </button>
+
+      <button
+        type="button"
+        data-page="debt-payments"
+      >
+        💳 Pembayaran Hutang
+      </button>
+
+      <button
+        type="button"
+        data-page="customers"
+      >
+        👥 Pelanggan
+      </button>
+
+      <button
+        type="button"
+        data-page="receivables"
+      >
+        💵 Piutang
+      </button>
+
+      <button
+        type="button"
+        data-page="reports"
+      >
+        📈 Laporan
+      </button>
+
+      <button
+        type="button"
+        data-page="backup"
+      >
+        💾 Backup / Restore
+      </button>
+
+    </nav>
+
+  </aside>
+
+
+  <!-- =========================
+       MAIN APPLICATION
+  ========================== -->
+  <main id="app">
+
+
+    <!-- DASHBOARD -->
+    <section
+      id="page-dashboard"
+      class="page active"
+    >
+
+      <div class="page-header">
+        <h1>Dashboard</h1>
+        <p>Ringkasan operasional Faeza ERP</p>
+      </div>
+
+      <div
+        id="dashboardCards"
+        class="dashboard-cards"
+      ></div>
+
+      <div class="panel">
+
+        <h2>Stok Menipis</h2>
+
+        <div id="lowStockList">
+          Belum ada data.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- KASIR -->
+    <section
+      id="page-cashier"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Kasir</h1>
+        <p>Penjualan dan stok keluar</p>
+      </div>
+
+      <div class="two-column">
+
+        <div class="panel">
+
+          <h2>Produk</h2>
+
+          <input
+            id="cashierSearch"
+            type="search"
+            placeholder="Cari produk..."
+          >
+
+          <div
+            id="cashierProducts"
+            class="product-list"
+          ></div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <h2>Keranjang</h2>
+
+          <div id="cartList">
+            Keranjang kosong.
+          </div>
+
+          <div
+            id="cartTotal"
+            class="cart-total"
+          >
+            Rp0
+          </div>
+
+          <select id="saleCustomer">
+            <option value="">
+              Pelanggan umum
+            </option>
+          </select>
+
+          <select id="salePayment">
+            <option value="cash">
+              Tunai
+            </option>
+
+            <option value="credit">
+              Kredit / Piutang
+            </option>
+          </select>
+
+          <input
+            id="salePaid"
+            type="number"
+            min="0"
+            placeholder="Jumlah dibayar"
+          >
+
+          <input
+            id="saleDueDate"
+            type="date"
+          >
+
+          <button
+            id="saveSale"
+            type="button"
+            class="button-primary"
+          >
+            Simpan Penjualan
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PRODUK -->
+    <section
+      id="page-products"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Produk & Stok</h1>
+        <p>Master barang dan persediaan</p>
+      </div>
+
+      <div class="panel form-grid">
+
+        <input
+          id="productName"
+          placeholder="Nama produk"
+        >
+
+        <input
+          id="productCategory"
+          placeholder="Kategori"
+        >
+
+        <input
+          id="productUnit"
+          placeholder="Satuan"
+        >
+
+        <input
+          id="productBuy"
+          type="number"
+          placeholder="Harga beli"
+        >
+
+        <input
+          id="productSell"
+          type="number"
+          placeholder="Harga jual"
+        >
+
+        <input
+          id="productStock"
+          type="number"
+          placeholder="Stok awal"
+        >
+
+        <input
+          id="productMin"
+          type="number"
+          placeholder="Minimum stok"
+        >
+
+        <button
+          id="saveProduct"
+          type="button"
+          class="button-primary"
+        >
+          Simpan Produk
+        </button>
+
+      </div>
+
+      <div class="panel">
+
+        <input
+          id="productSearch"
+          type="search"
+          placeholder="Cari produk..."
+        >
+
+        <div id="productTable"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SUPPLIER -->
+    <section
+      id="page-suppliers"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Supplier</h1>
+        <p>Database pemasok barang</p>
+      </div>
+
+      <div class="panel form-grid">
+
+        <input
+          id="supplierName"
+          placeholder="Nama supplier"
+        >
+
+        <input
+          id="supplierPhone"
+          placeholder="WhatsApp / Telepon"
+        >
+
+        <input
+          id="supplierAddress"
+          placeholder="Alamat"
+        >
+
+        <input
+          id="supplierNote"
+          placeholder="Catatan"
+        >
+
+        <button
+          id="saveSupplier"
+          type="button"
+          class="button-primary"
+        >
+          Simpan Supplier
+        </button>
+
+      </div>
+
+      <div class="panel">
+
+        <input
+          id="supplierSearch"
+          type="search"
+          placeholder="Cari supplier..."
+        >
+
+        <div id="supplierTable"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PEMBELIAN -->
+    <section
+      id="page-purchases"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Pembelian / Stok Masuk</h1>
+        <p>Barang masuk dari supplier</p>
+      </div>
+
+      <div class="panel form-grid">
+
+        <select id="purchaseSupplier">
+          <option value="">
+            Pilih supplier
+          </option>
+        </select>
+
+        <select id="purchaseProduct">
+          <option value="">
+            Pilih produk
+          </option>
+        </select>
+
+        <input
+          id="purchaseQty"
+          type="number"
+          min="1"
+          placeholder="Qty"
+        >
+
+        <input
+          id="purchasePrice"
+          type="number"
+          min="0"
+          placeholder="Harga beli"
+        >
+
+        <select id="purchasePayment">
+
+          <option value="cash">
+            Tunai
+          </option>
+
+          <option value="credit">
+            Kredit / Hutang
+          </option>
+
+        </select>
+
+        <input
+          id="purchaseDueDate"
+          type="date"
+        >
+
+        <button
+          id="savePurchase"
+          type="button"
+          class="button-primary"
+        >
+          Simpan Pembelian
+        </button>
+
+      </div>
+
+      <div class="panel">
+
+        <h2>Riwayat Pembelian</h2>
+
+        <div id="purchaseTable"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- HUTANG -->
+    <section
+      id="page-debts"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Hutang</h1>
+        <p>Hutang kepada supplier</p>
+      </div>
+
+      <div
+        id="debtTable"
+        class="panel"
+      ></div>
+
+    </section>
+
+
+    <!-- PEMBAYARAN HUTANG -->
+    <section
+      id="page-debt-payments"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Pembayaran Hutang</h1>
+        <p>Pembayaran sebagian atau lunas</p>
+      </div>
+
+      <div class="panel form-grid">
+
+        <select id="debtSelect">
+          <option value="">
+            Pilih hutang
+          </option>
+        </select>
+
+        <input
+          id="debtPayAmount"
+          type="number"
+          min="0"
+          placeholder="Jumlah pembayaran"
+        >
+
+        <button
+          id="payDebt"
+          type="button"
+          class="button-primary"
+        >
+          Simpan Pembayaran
+        </button>
+
+      </div>
+
+      <div
+        id="debtPaymentTable"
+        class="panel"
+      ></div>
+
+    </section>
+
+
+    <!-- PELANGGAN -->
+    <section
+      id="page-customers"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Pelanggan</h1>
+        <p>Database pelanggan</p>
+      </div>
+
+      <div class="panel form-grid">
+
+        <input
+          id="customerName"
+          placeholder="Nama pelanggan"
+        >
+
+        <input
+          id="customerPhone"
+          placeholder="WhatsApp / Telepon"
+        >
+
+        <input
+          id="customerAddress"
+          placeholder="Alamat"
+        >
+
+        <button
+          id="saveCustomer"
+          type="button"
+          class="button-primary"
+        >
+          Simpan Pelanggan
+        </button>
+
+      </div>
+
+      <div
+        id="customerTable"
+        class="panel"
+      ></div>
+
+    </section>
+
+
+    <!-- PIUTANG -->
+    <section
+      id="page-receivables"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Piutang</h1>
+        <p>Piutang pelanggan</p>
+      </div>
+
+      <div
+        id="receivableTable"
+        class="panel"
+      ></div>
+
+      <div class="panel form-grid">
+
+        <select id="receivableSelect">
+          <option value="">
+            Pilih piutang
+          </option>
+        </select>
+
+        <input
+          id="receivablePayAmount"
+          type="number"
+          min="0"
+          placeholder="Jumlah pembayaran"
+        >
+
+        <button
+          id="payReceivable"
+          type="button"
+          class="button-primary"
+        >
+          Simpan Pembayaran
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- LAPORAN -->
+    <section
+      id="page-reports"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Laporan</h1>
+        <p>Ringkasan bisnis</p>
+      </div>
+
+      <div
+        id="reportCards"
+        class="dashboard-cards"
+      ></div>
+
+      <div class="panel">
+
+        <h2>Penjualan</h2>
+
+        <div id="salesTable"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- BACKUP -->
+    <section
+      id="page-backup"
+      class="page"
+    >
+
+      <div class="page-header">
+        <h1>Backup / Restore</h1>
+        <p>Pengamanan database Faeza ERP</p>
+      </div>
+
+      <div class="panel action-row">
+
+        <button
+          id="backupButton"
+          type="button"
+          class="button-primary"
+        >
+          ⬇️ Backup Database
+        </button>
+
+        <label class="button-secondary">
+
+          ⬆️ Restore Database
+
+          <input
+            id="restoreInput"
+            type="file"
+            accept=".json"
+            hidden
+          >
+
+        </label>
+
+        <button
+          id="resetButton"
+          type="button"
+          class="button-danger"
+        >
+          Reset Database
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <div
+    id="toast"
+    class="toast"
+  ></div>
+
+
+  <script src="script.js"></script>
+
+</body>
+        </html>
