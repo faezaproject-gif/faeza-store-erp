@@ -1,0 +1,841 @@
+/* =========================================================
+   FAEZA ERP V2
+   STYLE.CSS
+   CLEAN FOUNDATION
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f4f6f9;
+  color: #172033;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0 16px;
+
+  background: #0b1730;
+  color: #ffffff;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.menu-button {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+  color: #ffffff;
+
+  font-size: 25px;
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menu-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.brand strong {
+  font-size: 17px;
+  letter-spacing: 0.5px;
+}
+
+.brand small {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10px;
+}
+
+/* =========================================================
+   BACKDROP
+========================================================= */
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1100;
+
+  display: none;
+
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.menu-backdrop.show {
+  display: block;
+}
+
+/* =========================================================
+   SIDE MENU
+========================================================= */
+
+.side-menu {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  z-index: 1200;
+
+  width: 290px;
+
+  overflow-y: auto;
+
+  background: #ffffff;
+
+  transform: translateX(-105%);
+
+  transition:
+    transform 0.22s ease;
+
+  box-shadow:
+    8px 0 25px rgba(0, 0, 0, 0.16);
+}
+
+.side-menu.open {
+  transform: translateX(0);
+}
+
+.side-menu-header {
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 14px;
+
+  background: #0b1730;
+  color: #ffffff;
+}
+
+.side-menu-header strong {
+  display: block;
+  font-size: 16px;
+}
+
+.side-menu-header small {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 10px;
+
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.close-menu {
+  width: 40px;
+  height: 40px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+  color: #ffffff;
+
+  font-size: 28px;
+
+  cursor: pointer;
+}
+
+.close-menu:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.main-navigation {
+  padding: 10px;
+}
+
+.main-navigation button {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 46px;
+
+  margin: 3px 0;
+  padding: 11px 12px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #172033;
+
+  text-align: left;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.main-navigation button:hover {
+  background: #eef2f7;
+}
+
+.main-navigation button:active {
+  transform: scale(0.98);
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 20px;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page {
+  display: none;
+
+  animation: pageFade 0.18s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header {
+  margin-bottom: 18px;
+}
+
+.page-header h1 {
+  margin: 0;
+
+  font-size: 25px;
+  line-height: 1.25;
+}
+
+.page-header p {
+  margin: 5px 0 0;
+
+  color: #687386;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.panel {
+  margin-bottom: 16px;
+  padding: 16px;
+
+  background: #ffffff;
+
+  border-radius: 13px;
+
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.055);
+}
+
+.panel h2 {
+  margin: 0 0 13px;
+
+  font-size: 17px;
+}
+
+.panel h3 {
+  margin: 12px 0;
+}
+
+/* =========================================================
+   DASHBOARD CARDS
+========================================================= */
+
+.dashboard-cards {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 13px;
+
+  margin-bottom: 16px;
+}
+
+.dashboard-card {
+  min-height: 105px;
+
+  padding: 16px;
+
+  background: #ffffff;
+
+  border-radius: 13px;
+
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.055);
+}
+
+.dashboard-card-label {
+  color: #687386;
+
+  font-size: 13px;
+}
+
+.dashboard-card-value {
+  margin-top: 7px;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  color: #172033;
+}
+
+/* =========================================================
+   TWO COLUMN
+========================================================= */
+
+.two-column {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  gap: 16px;
+}
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+input,
+select,
+textarea {
+  width: 100%;
+
+  min-height: 44px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #d8dee8;
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: #172033;
+
+  outline: none;
+
+  font: inherit;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+textarea {
+  min-height: 90px;
+
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #b98b2e;
+
+  box-shadow:
+    0 0 0 3px rgba(185, 139, 46, 0.12);
+}
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+button {
+  font: inherit;
+}
+
+.button-primary,
+.button-secondary,
+.button-danger {
+  min-height: 44px;
+
+  padding: 10px 15px;
+
+  border: 0;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition:
+    transform 0.1s ease,
+    opacity 0.15s ease;
+}
+
+.button-primary {
+  background: #b98b2e;
+  color: #ffffff;
+}
+
+.button-secondary {
+  background: #0b1730;
+  color: #ffffff;
+}
+
+.button-danger {
+  background: #b52b2b;
+  color: #ffffff;
+}
+
+.button-primary:hover,
+.button-secondary:hover,
+.button-danger:hover {
+  opacity: 0.92;
+}
+
+.button-primary:active,
+.button-secondary:active,
+.button-danger:active {
+  transform: scale(0.98);
+}
+
+/* =========================================================
+   PRODUCT LIST
+========================================================= */
+
+.product-list {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 9px;
+
+  margin-top: 12px;
+}
+
+.product-item {
+  padding: 12px;
+
+  border: 1px solid #e1e5eb;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.product-item:hover {
+  background: #f7f8fa;
+
+  border-color: #cfd6e0;
+}
+
+.product-item strong {
+  display: block;
+
+  margin-bottom: 4px;
+}
+
+.product-item small {
+  color: #687386;
+}
+
+/* =========================================================
+   CART
+========================================================= */
+
+.cart-row {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding: 10px 0;
+
+  border-bottom: 1px solid #edf0f4;
+}
+
+.cart-total {
+  padding: 15px 0;
+
+  text-align: right;
+
+  font-size: 21px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrap {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 11px 9px;
+
+  border-bottom: 1px solid #edf0f4;
+
+  text-align: left;
+
+  vertical-align: middle;
+
+  font-size: 13px;
+}
+
+th {
+  color: #536075;
+
+  background: #f8f9fb;
+
+  font-weight: 700;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+/* =========================================================
+   ACTION ROW
+========================================================= */
+
+.action-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   UPLOAD BUTTON
+========================================================= */
+
+.button-secondary {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+  position: fixed;
+
+  right: 16px;
+  bottom: 16px;
+
+  z-index: 2000;
+
+  display: none;
+
+  max-width: calc(100vw - 32px);
+
+  padding: 12px 16px;
+
+  border-radius: 9px;
+
+  background: #172033;
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.2);
+
+  font-size: 13px;
+}
+
+.toast.show {
+  display: block;
+
+  animation: toastIn 0.2s ease;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+  padding: 25px 10px;
+
+  color: #687386;
+
+  text-align: center;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 4px 8px;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-paid {
+  background: #e6f5ea;
+  color: #217a3a;
+}
+
+.status-partial {
+  background: #fff4d8;
+  color: #85651d;
+}
+
+.status-unpaid {
+  background: #fde7e7;
+  color: #a12626;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  main {
+    padding: 14px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+
+  .topbar {
+    height: 60px;
+
+    padding: 0 12px;
+  }
+
+  .side-menu {
+    width: 86vw;
+  }
+
+  main {
+    padding: 11px;
+  }
+
+  .page-header h1 {
+    font-size: 22px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 9px;
+  }
+
+  .dashboard-card {
+    min-height: 92px;
+
+    padding: 12px;
+  }
+
+  .dashboard-card-value {
+    font-size: 17px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 13px;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
+
+  .action-row {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+}
+
+/* =========================================================
+   ANDROID TOUCH
+========================================================= */
+
+button,
+select,
+input,
+label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+label {
+  touch-action: manipulation;
+}
+
+/* =========================================================
+   SAFE AREA
+========================================================= */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+
+  .topbar {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  main {
+    padding-bottom:
+      calc(20px + env(safe-area-inset-bottom));
+  }
+
+  }
