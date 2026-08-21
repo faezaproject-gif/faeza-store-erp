@@ -926,6 +926,28 @@ function renderSuppliers() {
                     )}
                   </td>
 
+                  <td>
+  <div class="action-row">
+
+    <button
+      type="button"
+      class="button-secondary"
+      data-edit-supplier="${supplier.id}"
+    >
+      Edit
+    </button>
+
+    <button
+      type="button"
+      class="button-danger"
+      data-delete-supplier="${supplier.id}"
+    >
+      Hapus
+    </button>
+
+  </div>
+</td>
+
                 </tr>
 
               `
