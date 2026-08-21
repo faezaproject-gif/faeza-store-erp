@@ -3044,7 +3044,7 @@ function setupApplicationEvents() {
     }
   );
 
-}
+       }
 
 
 
