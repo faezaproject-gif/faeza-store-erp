@@ -965,6 +965,136 @@ function renderSuppliers() {
 
 }
 
+function editSupplier(id) {
+
+  const supplier =
+    db.suppliers.find(
+      item => item.id === id
+    );
+
+  if (!supplier) {
+    showToast("Supplier tidak ditemukan.");
+    return;
+  }
+
+  const name =
+    prompt(
+      "Nama supplier:",
+      supplier.name
+    );
+
+  if (name === null) {
+    return;
+  }
+
+  const cleanName =
+    name.trim();
+
+  if (!cleanName) {
+    showToast("Nama supplier wajib diisi.");
+    return;
+  }
+
+  const phone =
+    prompt(
+      "Nomor WhatsApp:",
+      supplier.phone || ""
+    );
+
+  if (phone === null) {
+    return;
+  }
+
+  const address =
+    prompt(
+      "Alamat supplier:",
+      supplier.address || ""
+    );
+
+  if (address === null) {
+    return;
+  }
+
+  supplier.name =
+    cleanName;
+
+  supplier.phone =
+    phone.trim();
+
+  supplier.address =
+    address.trim();
+
+  saveDatabase();
+
+  renderAll();
+
+  showToast(
+    "Supplier berhasil diperbarui."
+  );
+}
+
+
+function deleteSupplier(id) {
+
+  const supplier =
+    db.suppliers.find(
+      item => item.id === id
+    );
+
+  if (!supplier) {
+    showToast("Supplier tidak ditemukan.");
+    return;
+  }
+
+
+  /*
+     CEK APAKAH SUPPLIER
+     SUDAH DIPAKAI PEMBELIAN
+  */
+
+  const used =
+    db.purchases.some(
+      purchase =>
+        purchase.supplierId === id
+    );
+
+
+  if (used) {
+
+    showToast(
+      "Supplier sudah memiliki transaksi pembelian dan tidak dapat dihapus."
+    );
+
+    return;
+  }
+
+
+  const confirmed =
+    window.confirm(
+      `Hapus supplier "${supplier.name}"?`
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  db.suppliers =
+    db.suppliers.filter(
+      item => item.id !== id
+    );
+
+
+  saveDatabase();
+
+  renderAll();
+
+  showToast(
+    "Supplier berhasil dihapus."
+  );
+}
+
 
 /* =========================================================
    PURCHASE
