@@ -3145,6 +3145,11 @@ function setupApplicationEvents() {
     resetDatabase
   );
 
+     }
+
+/* =========================================================
+   GLOBAL CLICK HANDLER
+========================================================= */
 
 document.addEventListener(
   "click",
@@ -3166,26 +3171,23 @@ document.addEventListener(
       return;
     }
 
-     // =========================
-// EDIT PRODUK
-// =========================
 
-const editProductButton =
-  event.target.closest(
-    "[data-edit-product]"
-  );
+    // EDIT PRODUK
+    const editProductButton =
+      event.target.closest(
+        "[data-edit-product]"
+      );
 
-if (editProductButton) {
+    if (editProductButton) {
 
-  editProduct(
-    editProductButton.dataset
-      .editProduct
-  );
+      editProduct(
+        editProductButton.dataset
+          .editProduct
+      );
 
-  return;
-}
+      return;
+    }
 
-   
 
     // EDIT SUPPLIER
     const editSupplierButton =
@@ -3223,7 +3225,6 @@ if (editProductButton) {
   }
 );
 
-       }
 
 
 /* =========================================================
