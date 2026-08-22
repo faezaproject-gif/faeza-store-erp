@@ -3100,7 +3100,86 @@ function resetDatabase() {
 }
 
 
+/* =========================================================
+   STOCK CARD
+========================================================= */
 
+function getStockCard(productId) {
+
+  const product =
+    db.products.find(
+      item =>
+        item.id === productId
+    );
+
+  if (!product) {
+    return [];
+  }
+
+
+  const movements =
+    (db.stockMovements || [])
+      .filter(
+        movement =>
+          movement.productId ===
+          productId
+      )
+      .sort(
+        (a, b) =>
+          String(a.date)
+            .localeCompare(
+              String(b.date)
+            )
+      );
+
+
+  let balance = 0;
+
+
+  return movements.map(
+    movement => {
+
+      const masuk =
+        movement.type === "IN"
+          ? Number(movement.qty) || 0
+          : 0;
+
+
+      const keluar =
+        movement.type === "OUT"
+          ? Number(movement.qty) || 0
+          : 0;
+
+
+      balance =
+        balance +
+        masuk -
+        keluar;
+
+
+      return {
+
+        date:
+          movement.date || "",
+
+        reference:
+          movement.reference || "",
+
+        type:
+          movement.type || "",
+
+        masuk,
+
+        keluar,
+
+        balance
+
+      };
+
+    }
+  );
+
+}
 
 
 /* =========================================================
