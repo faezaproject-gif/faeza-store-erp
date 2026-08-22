@@ -3166,6 +3166,25 @@ document.addEventListener(
       return;
     }
 
+     // =========================
+// EDIT PRODUK
+// =========================
+
+const editProductButton =
+  event.target.closest(
+    "[data-edit-product]"
+  );
+
+if (editProductButton) {
+
+  editProduct(
+    editProductButton.dataset
+      .editProduct
+  );
+
+  return;
+}
+
 
     // EDIT SUPPLIER
     const editSupplierButton =
