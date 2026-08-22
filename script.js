@@ -3600,6 +3600,13 @@ function setupApplicationEvents() {
     resetDatabase
   );
 
+     /* STOCK CARD */
+
+  $("stockCardProduct")?.addEventListener(
+    "change",
+    renderStockCard
+  );
+
      }
 
 /* =========================================================
