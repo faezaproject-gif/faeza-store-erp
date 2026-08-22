@@ -926,6 +926,8 @@ function renderStockCardSummary(productId) {
   const productId =
     select.value;
 
+        renderStockCardSummary(productId);
+
 
   if (!productId) {
 
