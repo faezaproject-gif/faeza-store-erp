@@ -3185,6 +3185,97 @@ if (editProductButton) {
   return;
 }
 
+     function deleteProduct(id) {
+
+  const product =
+    db.products.find(
+      item => item.id === id
+    );
+
+  if (!product) {
+    showToast(
+      "Produk tidak ditemukan."
+    );
+    return;
+  }
+
+
+  // CEK RIWAYAT PENJUALAN
+  const usedInSales =
+    db.sales?.some(
+      sale =>
+        sale.items?.some(
+          item =>
+            item.productId === id
+        )
+    );
+
+
+  // CEK RIWAYAT PEMBELIAN
+  const usedInPurchases =
+    db.purchases?.some(
+      purchase =>
+        purchase.items?.some(
+          item =>
+            item.productId === id
+        )
+    );
+
+
+  if (
+    usedInSales ||
+    usedInPurchases
+  ) {
+
+    showToast(
+      "Produk sudah memiliki riwayat transaksi dan tidak dapat dihapus."
+    );
+
+    return;
+  }
+
+
+  // PERINGATAN JIKA MASIH ADA STOK
+  if (Number(product.stock) > 0) {
+
+    const confirmStock =
+      window.confirm(
+        `Produk "${product.name}" masih memiliki stok ${product.stock} ${product.unit}.\n\nTetap hapus produk?`
+      );
+
+    if (!confirmStock) {
+      return;
+    }
+
+  }
+
+
+  const confirmed =
+    window.confirm(
+      `Hapus produk "${product.name}"?`
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  db.products =
+    db.products.filter(
+      item => item.id !== id
+    );
+
+
+  saveDatabase();
+
+  renderAll();
+
+  showToast(
+    "Produk berhasil dihapus."
+  );
+
+       }
 
     // EDIT SUPPLIER
     const editSupplierButton =
