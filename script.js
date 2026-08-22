@@ -767,6 +767,203 @@ function renderProducts() {
 
 }
 
+
+/* =========================================================
+   STOCK CARD RENDER
+========================================================= */
+
+function renderStockCardProducts() {
+
+  const select =
+    $("stockCardProduct");
+
+  if (!select) return;
+
+
+  const currentValue =
+    select.value;
+
+
+  select.innerHTML = `
+    <option value="">
+      Pilih produk
+    </option>
+
+    ${
+      (db.products || [])
+        .map(
+          product => `
+            <option value="${escapeHTML(product.id)}">
+              ${escapeHTML(product.name)}
+            </option>
+          `
+        )
+        .join("")
+    }
+  `;
+
+
+  if (
+    currentValue &&
+    db.products.some(
+      product =>
+        product.id === currentValue
+    )
+  ) {
+
+    select.value =
+      currentValue;
+
+  }
+
+}
+
+     function renderStockCard() {
+
+  const container =
+    $("stockCardTable");
+
+  const select =
+    $("stockCardProduct");
+
+  if (!container || !select) {
+    return;
+  }
+
+
+  const productId =
+    select.value;
+
+
+  if (!productId) {
+
+    container.innerHTML = `
+      Pilih produk untuk melihat kartu stok.
+    `;
+
+    return;
+  }
+
+
+  const product =
+    db.products.find(
+      item =>
+        item.id === productId
+    );
+
+
+  if (!product) {
+
+    container.innerHTML = `
+      Produk tidak ditemukan.
+    `;
+
+    return;
+  }
+
+
+  const rows =
+    getStockCard(productId);
+
+
+  if (!rows.length) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        Belum ada riwayat stok untuk
+        <strong>
+          ${escapeHTML(product.name)}
+        </strong>.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML = `
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Tanggal</th>
+            <th>Referensi</th>
+            <th>Jenis</th>
+            <th>Masuk</th>
+            <th>Keluar</th>
+            <th>Saldo</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${
+            rows
+              .map(
+                row => `
+
+                  <tr>
+
+                    <td>
+                      ${escapeHTML(
+                        row.date
+                      )}
+                    </td>
+
+                    <td>
+                      ${escapeHTML(
+                        row.reference
+                      )}
+                    </td>
+
+                    <td>
+                      ${
+                        row.type === "IN"
+                          ? "Stok Masuk"
+                          : "Stok Keluar"
+                      }
+                    </td>
+
+                    <td>
+                      ${
+                        row.masuk || "-"
+                      }
+                    </td>
+
+                    <td>
+                      ${
+                        row.keluar || "-"
+                      }
+                    </td>
+
+                    <td>
+                      <strong>
+                        ${row.balance}
+                      </strong>
+                    </td>
+
+                  </tr>
+
+                `
+              )
+              .join("")
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+
+}
+
 function editProduct(id) {
 
   const product =
