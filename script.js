@@ -3185,20 +3185,7 @@ if (editProductButton) {
   return;
 }
 
-     function deleteProduct(id) {
-
-  const product =
-    db.products.find(
-      item => item.id === id
-    );
-
-  if (!product) {
-    showToast(
-      "Produk tidak ditemukan."
-    );
-    return;
-  }
-
+   
 
   // CEK RIWAYAT PENJUALAN
   const usedInSales =
