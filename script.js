@@ -3298,6 +3298,22 @@ document.addEventListener(
       return;
     }
 
+     // HAPUS PRODUK
+const deleteProductButton =
+  event.target.closest(
+    "[data-delete-product]"
+  );
+
+if (deleteProductButton) {
+
+  deleteProduct(
+    deleteProductButton.dataset
+      .deleteProduct
+  );
+
+  return;
+}
+
 
     // EDIT SUPPLIER
     const editSupplierButton =
