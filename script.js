@@ -818,6 +818,98 @@ function renderStockCardProducts() {
 
 }
 
+function renderStockCardSummary(productId) {
+
+  const container =
+    $("stockCardSummary");
+
+  if (!container) return;
+
+
+  if (!productId) {
+
+    container.innerHTML = `
+      Pilih produk untuk melihat ringkasan stok.
+    `;
+
+    return;
+  }
+
+
+  const product =
+    db.products.find(
+      item =>
+        item.id === productId
+    );
+
+
+  if (!product) {
+
+    container.innerHTML = `
+      Produk tidak ditemukan.
+    `;
+
+    return;
+  }
+
+
+  const rows =
+    getStockCard(productId);
+
+
+  const totalMasuk =
+    rows.reduce(
+      (sum, row) =>
+        sum +
+        Number(row.masuk || 0),
+      0
+    );
+
+
+  const totalKeluar =
+    rows.reduce(
+      (sum, row) =>
+        sum +
+        Number(row.keluar || 0),
+      0
+    );
+
+
+  const saldo =
+    totalMasuk -
+    totalKeluar;
+
+
+  container.innerHTML = `
+
+    <div class="dashboard-cards">
+
+      <div class="panel">
+        <strong>Stok Masuk</strong>
+        <h2>${totalMasuk}</h2>
+      </div>
+
+      <div class="panel">
+        <strong>Stok Keluar</strong>
+        <h2>${totalKeluar}</h2>
+      </div>
+
+      <div class="panel">
+        <strong>Saldo Mutasi</strong>
+        <h2>${saldo}</h2>
+      </div>
+
+      <div class="panel">
+        <strong>Stok Saat Ini</strong>
+        <h2>${Number(product.stock) || 0}</h2>
+      </div>
+
+    </div>
+
+  `;
+
+}
+
      function renderStockCard() {
 
   const container =
