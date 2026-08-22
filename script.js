@@ -3460,6 +3460,10 @@ function renderAll() {
 
   renderSuppliers();
 
+     renderStockCardProducts();
+   
+  renderStockCard();
+
   fillPurchaseSelectors();
 
   renderPurchases();
