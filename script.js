@@ -878,6 +878,116 @@ function editProduct(id) {
   );
 }
 
+function deleteProduct(id) {
+
+  const product =
+    db.products.find(
+      item => item.id === id
+    );
+
+  if (!product) {
+
+    showToast(
+      "Produk tidak ditemukan."
+    );
+
+    return;
+  }
+
+
+  /*
+     CEK RIWAYAT TRANSAKSI
+  */
+
+  const usedInSales =
+    Array.isArray(db.sales) &&
+    db.sales.some(
+      sale =>
+        Array.isArray(sale.items) &&
+        sale.items.some(
+          item =>
+            item.productId === id
+        )
+    );
+
+
+  const usedInPurchases =
+    Array.isArray(db.purchases) &&
+    db.purchases.some(
+      purchase =>
+        Array.isArray(purchase.items) &&
+        purchase.items.some(
+          item =>
+            item.productId === id
+        )
+    );
+
+
+  if (
+    usedInSales ||
+    usedInPurchases
+  ) {
+
+    showToast(
+      "Produk sudah memiliki riwayat transaksi dan tidak dapat dihapus."
+    );
+
+    return;
+  }
+
+
+  /*
+     CEK STOK TERSISA
+  */
+
+  if (
+    Number(product.stock || 0) > 0
+  ) {
+
+    const confirmStock =
+      window.confirm(
+        `Produk "${product.name}" masih memiliki stok ${product.stock} ${product.unit}.\n\nTetap hapus produk?`
+      );
+
+    if (!confirmStock) {
+      return;
+    }
+  }
+
+
+  /*
+     KONFIRMASI AKHIR
+  */
+
+  const confirmed =
+    window.confirm(
+      `Hapus produk "${product.name}"?`
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  db.products =
+    db.products.filter(
+      item =>
+        item.id !== id
+    );
+
+
+  saveDatabase();
+
+  renderAll();
+
+  showToast(
+    "Produk berhasil dihapus."
+  );
+
+}
+
+
 /* =========================================================
    SUPPLIER
    HANDLER BERDIRI SENDIRI
