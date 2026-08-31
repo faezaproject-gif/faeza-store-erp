@@ -1086,7 +1086,7 @@ function filterStockCardMovements(movements) {
         <tbody>
 
           ${
-            rows
+            filteredRows
               .map(
                 row => `
 
