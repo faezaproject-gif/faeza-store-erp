@@ -1044,6 +1044,9 @@ function filterStockCardMovements(movements) {
 
   const rows =
     getStockCard(productId);
+        
+        const filteredRows =
+  filterStockCardMovements(rows);
 
 
   if (!rows.length) {
