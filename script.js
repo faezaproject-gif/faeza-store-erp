@@ -910,6 +910,92 @@ function renderStockCardSummary(productId) {
 
 }
 
+/* =========================================================
+   STOCK CARD FILTER
+========================================================= */
+
+function filterStockCardMovements(movements) {
+
+  const filter =
+    $("stockCardFilter")?.value || "all";
+
+  if (filter === "all") {
+    return movements;
+  }
+
+  const now = new Date();
+
+  if (filter === "today") {
+
+    const todayValue = today();
+
+    return movements.filter(
+      movement =>
+        String(movement.date).slice(0, 10) ===
+        todayValue
+    );
+  }
+
+
+  if (filter === "week") {
+
+    const start = new Date(now);
+
+    const day = start.getDay();
+
+    const diff =
+      day === 0
+        ? 6
+        : day - 1;
+
+    start.setDate(
+      start.getDate() - diff
+    );
+
+    start.setHours(
+      0, 0, 0, 0
+    );
+
+    return movements.filter(
+      movement => {
+
+        const date =
+          new Date(movement.date);
+
+        return date >= start &&
+               date <= now;
+      }
+    );
+  }
+
+
+  if (filter === "month") {
+
+    const year =
+      now.getFullYear();
+
+    const month =
+      now.getMonth();
+
+    return movements.filter(
+      movement => {
+
+        const date =
+          new Date(movement.date);
+
+        return (
+          date.getFullYear() === year &&
+          date.getMonth() === month
+        );
+
+      }
+    );
+  }
+
+
+  return movements;
+}
+
      function renderStockCard() {
 
   const container =
